@@ -13,15 +13,13 @@ import org.hibernate.annotations.SQLDelete;
 @SQLDelete(sql = "UPDATE attempt_answer_options SET deleted_at=NOW() WHERE id=?")
 public class AttemptAnswerOption extends BaseAuditableSoftDelete {
 
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attempt_answer_id", nullable = false)
     private AttemptAnswer attemptAnswer;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id", nullable = false)

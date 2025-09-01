@@ -1,20 +1,27 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/examdb?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/sisko_exam?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
     username: root
-    password: root
+    password: P@ssW0rd32!
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: false
   jackson:
     serialization:
       write-dates-as-timestamps: false
 
 server:
   port: 8080
+
+app:
+  jwt:
+    secret: K8y2KYfZKobypjZMDCr5Xg/eRAjf+lHTPf6J5K16OjVq/5SMjk4n8iql98KQ+4vbCvL6Orzs3QLJH00bb35duA==
+    exp-minutes: 3600000 #1 hour
 
 logging:
   level:

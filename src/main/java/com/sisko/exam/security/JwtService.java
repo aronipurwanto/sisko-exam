@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Map;
 
 
-@Service
+@Service("jwtServiceSecurity")
 public class JwtService {
     private final Key key;
     private final int expMinutes;

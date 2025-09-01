@@ -19,45 +19,36 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE attempt_answers SET deleted_at=NOW() WHERE id=?")
 public class AttemptAnswer extends BaseAuditableSoftDelete {
 
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attempt_id", nullable = false)
     private ExamAttempt attempt;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-
     @Column(name = "answer_text", columnDefinition = "MEDIUMTEXT")
     private String answerText; // for ESSAY
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "selected_option_id")
     private QuestionOption selectedOption; // for SINGLE MCQ
 
-
     @Column(name = "score")
     private Double score;
-
 
     @Column(name = "graded_by")
     private String gradedBy;
 
-
     @Column(name = "graded_at")
     private Instant gradedAt;
 
-
     @Column(name = "feedback")
     private String feedback;
-
 
     @OneToMany(mappedBy = "attemptAnswer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttemptAnswerOption> selectedOptions = new ArrayList<>(); // for MULTI

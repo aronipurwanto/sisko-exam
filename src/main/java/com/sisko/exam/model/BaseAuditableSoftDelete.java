@@ -21,30 +21,24 @@ import java.time.Instant;
 @Where(clause = "deleted_at IS NULL")
 public abstract class BaseAuditableSoftDelete {
 
-
     @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
-
 
     @CreatedBy
     @Column(name = "created_by", updatable = false)
     private String createdBy;
 
-
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
-
 
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
 
-
     @Column(name = "deleted_at")
     private Instant deletedAt;
-
 
     @Column(name = "deleted_by")
     private String deletedBy;
