@@ -1,5 +1,6 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
+import com.sisko.exam.enums.ExamStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -9,12 +10,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "exams")
 @SQLDelete(sql = "UPDATE exams SET deleted_at=NOW() WHERE id=?")
-public class Exam extends BaseAuditableSoftDelete {
-    public enum Status { DRAFT, PUBLISHED, ARCHIVED }
+public class ExamEntity extends BaseAuditableSoftDelete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +41,7 @@ public class Exam extends BaseAuditableSoftDelete {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.DRAFT;
+    private ExamStatus status = ExamStatus.DRAFT;
 
     @Column(name = "start_at")
     private Instant startAt;
@@ -47,5 +51,5 @@ public class Exam extends BaseAuditableSoftDelete {
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
-    private List<ExamQuestion> questions = new ArrayList<>();
+    private List<ExamQuestionEntity> questions = new ArrayList<>();
 }

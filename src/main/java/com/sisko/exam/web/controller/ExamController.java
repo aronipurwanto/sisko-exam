@@ -1,7 +1,7 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.Exam;
-import com.sisko.exam.model.ExamQuestion;
+import com.sisko.exam.model.entity.ExamEntity;
+import com.sisko.exam.model.entity.ExamQuestionEntity;
 import com.sisko.exam.service.ExamService;
 import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +27,19 @@ public class ExamController {
 
 
     @PostMapping
-    public ResponseEntity<Exam> create(@RequestBody CreateExamReq req) {
+    public ResponseEntity<ExamEntity> create(@RequestBody CreateExamReq req) {
         return ResponseEntity.ok(examService.createExam(req.name(), req.instructions(), req.durationMinutes()));
     }
 
 
     @PostMapping("/{examId}/questions")
-    public ResponseEntity<ExamQuestion> addQuestion(@PathVariable Long examId, @RequestBody AddExamQuestionReq req) {
+    public ResponseEntity<ExamQuestionEntity> addQuestion(@PathVariable Long examId, @RequestBody AddExamQuestionReq req) {
         return ResponseEntity.ok(examService.addQuestion(examId, req.questionId(), req.points(), req.orderIndex()));
     }
 
 
     @PostMapping("/{examId}/publish")
-    public ResponseEntity<Exam> publish(@PathVariable Long examId, @RequestBody PublishExamReq req) {
+    public ResponseEntity<ExamEntity> publish(@PathVariable Long examId, @RequestBody PublishExamReq req) {
         return ResponseEntity.ok(examService.publish(examId, req.start(), req.end()));
     }
 }

@@ -1,4 +1,4 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @Table(name = "exam_questions", uniqueConstraints = @UniqueConstraint(name = "uk_eq", columnNames = {"exam_id","question_id"}))
 @SQLDelete(sql = "UPDATE exam_questions SET deleted_at=NOW() WHERE id=?")
-public class ExamQuestion extends BaseAuditableSoftDelete {
+public class ExamQuestionEntity extends BaseAuditableSoftDelete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class ExamQuestion extends BaseAuditableSoftDelete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    private ExamEntity exam;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    private QuestionEntity question;
 
     @Column(nullable = false)
     private double points;

@@ -1,4 +1,4 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

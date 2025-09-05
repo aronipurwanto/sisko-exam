@@ -1,4 +1,4 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "questions")
 @SQLDelete(sql = "UPDATE questions SET deleted_at=NOW() WHERE id=?")
-public class Question extends BaseAuditableSoftDelete {
+public class QuestionEntity extends BaseAuditableSoftDelete {
     public enum Type { ESSAY, MCQ }
     public enum AnswerPolicy { SINGLE, MULTI_ALL, MULTI_PARTIAL }
 
@@ -39,5 +39,5 @@ public class Question extends BaseAuditableSoftDelete {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
-    private List<QuestionOption> options = new ArrayList<>();
+    private List<QuestionOptionEntity> options = new ArrayList<>();
 }

@@ -1,0 +1,86 @@
+@startuml
+
+entity Question {
+    * id : long <<generated>>
+    --
+    * qtype : enum <ESSAY, MCQ>
+    * answerPolicy : enum <SINGLE, MULTI_ALL, MULTI_PARTIAL>
+    * stem : string
+    * pointsDefault : double
+}
+
+entity QuestionOption {
+    * id : long <<generated>>
+    --
+    * label : string <A, B, C>
+    * content : string
+    * correct : boolean
+    * orderIndex : int
+}
+
+entity Exam {
+    * id : long <<generated>>
+    --
+    * name : string
+    * instructions : string
+    * durationMinutes : int
+    * randomizeQuestions : boolean
+    * randomizeOptions : boolean
+    * status : enum <DRAFT, PUBLISHED, ARCHIVED>
+    * startAt : Instant
+    * endAt : Instant
+}
+
+entity ExamAssignment {
+    * id : long <<generated>>
+    --
+    * groupLabel : string
+    * startAt : Instant
+    * endAt : Instant
+    * maxAttempts : int
+    * accessCode : string
+    * audienceCode : string
+}
+
+entity AttemptAnswer {
+    * id : long <<generated>>
+    --
+    * answerText : string
+    * score : Double
+    * gradedBy : string
+    * gradedAt : Instant
+    * feedback : string
+}
+
+entity ExamAttempt {
+    * id : long <<generated>>
+    --
+    * studentUsername : string
+    * attemptNo : int
+    * startedAt : Instant
+    * submittedAt : Instant
+    * status : enum <IN_PROGRESS, SUBMITTED, GRADED, CANCELLED>
+    * scoreTotal : Double
+}
+
+entity ExamQuestion {
+    * id : long <<generated>>
+    --
+    * points : double
+    * orderIndex : int
+    * required : boolean
+}
+
+entity AttemptAnswerOption {
+    * id : long <<generated>>
+}
+
+Question ||--|{ QuestionOption
+Exam ||--|{ ExamAssignment
+QuestionOption ||--|{ AttemptAnswerOption
+Question ||--|{ AttemptAnswer
+ExamAttempt ||--|{ AttemptAnswer
+AttemptAnswer ||--|{ AttemptAnswerOption
+Exam ||--|{ ExamQuestion
+Question ||--|{ ExamQuestion
+@enduml

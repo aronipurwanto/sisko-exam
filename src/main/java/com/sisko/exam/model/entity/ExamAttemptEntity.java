@@ -1,5 +1,6 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
+import com.sisko.exam.enums.ExamAttemptStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -9,15 +10,16 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "exam_attempts",
         uniqueConstraints = @UniqueConstraint(name = "uk_assign_student_attempt", columnNames = {"assignment_id","student_username","attempt_no"}))
 @SQLDelete(sql = "UPDATE exam_attempts SET deleted_at=NOW() WHERE id=?")
-public class ExamAttempt extends BaseAuditableSoftDelete {
-    public enum Status { IN_PROGRESS, SUBMITTED, GRADED, CANCELLED }
+public class ExamAttemptEntity extends BaseAuditableSoftDelete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +45,11 @@ public class ExamAttempt extends BaseAuditableSoftDelete {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.IN_PROGRESS;
+    private ExamAttemptStatus status = ExamAttemptStatus.IN_PROGRESS;
 
     @Column(name = "score_total")
     private Double scoreTotal;
 
     @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AttemptAnswer> answers = new ArrayList<>();
+    private List<AttemptAnswerEntity> answers = new ArrayList<>();
 }

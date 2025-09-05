@@ -1,10 +1,9 @@
 package com.sisko.exam.model;
 
+import com.sisko.exam.model.entity.BaseAuditableSoftDelete;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-
-import java.util.List;
 
 
 @Getter @Setter

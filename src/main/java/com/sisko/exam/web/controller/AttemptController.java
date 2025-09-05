@@ -1,7 +1,7 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.AttemptAnswer;
-import com.sisko.exam.model.ExamAttempt;
+import com.sisko.exam.model.entity.AttemptAnswerEntity;
+import com.sisko.exam.model.entity.ExamAttemptEntity;
 import com.sisko.exam.service.AttemptService;
 import com.sisko.exam.web.dto.AttemptDTOs;
 import jakarta.validation.Valid;
@@ -29,7 +29,7 @@ public class AttemptController {
 
     @PostMapping
     public ResponseEntity<AttemptDTOs.StartAttemptResp> start(@RequestBody @Valid AttemptDTOs.StartAttemptReq req, Authentication auth) {
-        ExamAttempt att = attemptService.startAttempt(req.examId(), req.assignmentId(), auth.getName(), req.attemptNo());
+        ExamAttemptEntity att = attemptService.startAttempt(req.examId(), req.assignmentId(), auth.getName(), req.attemptNo());
         log.info("Attempt started id={} by {}", att.getId(), auth.getName());
         return ResponseEntity.ok(new AttemptDTOs.StartAttemptResp(att.getId(), att.getStatus().name()));
     }
@@ -37,7 +37,7 @@ public class AttemptController {
 
     @PostMapping("/{attemptId}/essay")
     public ResponseEntity<Long> answerEssay(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerEssayReq req) {
-        AttemptAnswer aa = attemptService.answerEssay(attemptId, req.questionId(), req.text());
+        AttemptAnswerEntity aa = attemptService.answerEssay(attemptId, req.questionId(), req.text());
         log.info("Essay answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
     }
@@ -45,7 +45,7 @@ public class AttemptController {
 
     @PostMapping("/{attemptId}/single")
     public ResponseEntity<Long> answerSingle(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerSingleReq req) {
-        AttemptAnswer aa = attemptService.answerSingleMcq(attemptId, req.questionId(), req.optionId());
+        AttemptAnswerEntity aa = attemptService.answerSingleMcq(attemptId, req.questionId(), req.optionId());
         log.info("Single MCQ answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
     }
@@ -53,7 +53,7 @@ public class AttemptController {
 
     @PostMapping("/{attemptId}/multi")
     public ResponseEntity<Long> answerMulti(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerMultiReq req) {
-        AttemptAnswer aa = attemptService.answerMulti(attemptId, req.questionId(), req.optionIds());
+        AttemptAnswerEntity aa = attemptService.answerMulti(attemptId, req.questionId(), req.optionIds());
         log.info("Multi MCQ answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
     }
@@ -61,7 +61,7 @@ public class AttemptController {
 
     @PostMapping("/{attemptId}/submit")
     public ResponseEntity<AttemptDTOs.SubmitResp> submit(@PathVariable Long attemptId) {
-        ExamAttempt att = attemptService.submit(attemptId);
+        ExamAttemptEntity att = attemptService.submit(attemptId);
         log.info("Attempt submitted id={}, score={}", att.getId(), att.getScoreTotal());
         return ResponseEntity.ok(new AttemptDTOs.SubmitResp(att.getId(), att.getScoreTotal(), att.getStatus().name()));
     }

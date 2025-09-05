@@ -1,9 +1,7 @@
 package com.sisko.exam.web.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sisko.exam.model.Question;
+import com.sisko.exam.model.entity.QuestionEntity;
 import com.sisko.exam.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @WebMvcTest(controllers = QuestionController.class)
-class QuestionControllerTest {
+class QuestionEntityControllerTest {
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper om;
 
@@ -34,11 +32,11 @@ class QuestionControllerTest {
     @Test
     void createQuestion_validation_ok() throws Exception {
         var req = new com.sisko.exam.web.dto.QuestionDTOs.CreateQuestionReq(
-                Question.Type.MCQ, Question.AnswerPolicy.MULTI_ALL, "stem", 1.0,
+                QuestionEntity.Type.MCQ, QuestionEntity.AnswerPolicy.MULTI_ALL, "stem", 1.0,
                 List.of(new com.sisko.exam.web.dto.QuestionDTOs.OptionReq("A","opt", true))
         );
         Mockito.when(questionService.createQuestion(Mockito.any(), Mockito.anyList()))
-                .thenReturn(Question.builder().id(1L).qtype(Question.Type.MCQ).answerPolicy(Question.AnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
+                .thenReturn(QuestionEntity.builder().id(1L).qtype(QuestionEntity.Type.MCQ).answerPolicy(QuestionEntity.AnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
         mvc.perform(post("/api/questions").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(req)))
                 .andExpect(status().isOk());
     }
