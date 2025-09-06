@@ -1,6 +1,8 @@
 package com.sisko.exam.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sisko.exam.enums.QuestionAnswerPolicy;
+import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.model.entity.QuestionEntity;
 import com.sisko.exam.service.QuestionService;
 import org.junit.jupiter.api.Test;
@@ -32,11 +34,11 @@ class QuestionEntityControllerTest {
     @Test
     void createQuestion_validation_ok() throws Exception {
         var req = new com.sisko.exam.web.dto.QuestionDTOs.CreateQuestionReq(
-                QuestionEntity.Type.MCQ, QuestionEntity.AnswerPolicy.MULTI_ALL, "stem", 1.0,
+                QuestionType.MCQ, QuestionAnswerPolicy.MULTI_ALL, "stem", 1.0,
                 List.of(new com.sisko.exam.web.dto.QuestionDTOs.OptionReq("A","opt", true))
         );
         Mockito.when(questionService.createQuestion(Mockito.any(), Mockito.anyList()))
-                .thenReturn(QuestionEntity.builder().id(1L).qtype(QuestionEntity.Type.MCQ).answerPolicy(QuestionEntity.AnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
+                .thenReturn(QuestionEntity.builder().id(1L).qtype(QuestionType.MCQ).answerPolicy(QuestionAnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
         mvc.perform(post("/api/questions").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(req)))
                 .andExpect(status().isOk());
     }

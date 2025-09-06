@@ -1,5 +1,7 @@
 package com.sisko.exam.web.controller;
 
+import com.sisko.exam.enums.QuestionAnswerPolicy;
+import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.model.entity.QuestionEntity;
 import com.sisko.exam.model.entity.QuestionOptionEntity;
 import com.sisko.exam.repo.QuestionRepository;
@@ -48,8 +50,8 @@ public class QuestionController {
 
     @GetMapping
     public Page<QuestionEntity> list(
-            @RequestParam(required = false) QuestionEntity.Type qtype,
-            @RequestParam(required = false) QuestionEntity.AnswerPolicy policy,
+            @RequestParam(required = false) QuestionType qtype,
+            @RequestParam(required = false) QuestionAnswerPolicy policy,
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size

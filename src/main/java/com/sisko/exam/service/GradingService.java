@@ -1,5 +1,6 @@
 package com.sisko.exam.service;
 
+import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.model.entity.AttemptAnswerEntity;
 import com.sisko.exam.model.entity.AttemptAnswerOptionEntity;
 import com.sisko.exam.model.entity.QuestionEntity;
@@ -21,7 +22,7 @@ public class GradingService {
      */
     public boolean isMultiAllCorrect(AttemptAnswerEntity aa) {
         QuestionEntity q = aa.getQuestion();
-        if (q.getQtype() != QuestionEntity.Type.MCQ) return false;
+        if (q.getQtype() != QuestionType.MCQ) return false;
 // Build sets
         Set<Long> correct = new HashSet<>();
         for (QuestionOptionEntity opt : q.getOptions()) {

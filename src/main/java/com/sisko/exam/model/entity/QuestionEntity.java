@@ -1,5 +1,7 @@
 package com.sisko.exam.model.entity;
 
+import com.sisko.exam.enums.QuestionAnswerPolicy;
+import com.sisko.exam.enums.QuestionType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -16,8 +18,6 @@ import java.util.List;
 @Table(name = "questions")
 @SQLDelete(sql = "UPDATE questions SET deleted_at=NOW() WHERE id=?")
 public class QuestionEntity extends BaseAuditableSoftDelete {
-    public enum Type { ESSAY, MCQ }
-    public enum AnswerPolicy { SINGLE, MULTI_ALL, MULTI_PARTIAL }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,11 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private Type qtype;
+    private QuestionType qtype;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "answer_policy", nullable = false, length = 12)
-    private AnswerPolicy answerPolicy = AnswerPolicy.SINGLE;
+    private QuestionAnswerPolicy answerPolicy = QuestionAnswerPolicy.SINGLE;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String stem;
@@ -40,4 +40,10 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
     private List<QuestionOptionEntity> options = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttemptAnswerEntity>  attemptAnswers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExamQuestionEntity> examQuestions = new ArrayList<>();
 }
