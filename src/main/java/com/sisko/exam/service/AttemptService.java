@@ -1,16 +1,16 @@
 package com.sisko.exam.service;
 
 import com.sisko.exam.enums.ExamAttemptStatus;
-import com.sisko.exam.model.entity.AttemptAnswerEntity;
-import com.sisko.exam.repo.AttemptAnswerRepository;
-import com.sisko.exam.repo.AttemptAnswerOptionRepository;
-import com.sisko.exam.model.entity.AttemptAnswerOptionEntity;
-import com.sisko.exam.repo.ExamAttemptRepository;
-import com.sisko.exam.model.entity.ExamAttemptEntity;
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.repo.QuestionOptionRepository;
-import com.sisko.exam.model.entity.QuestionOptionEntity;
-import com.sisko.exam.repo.QuestionRepository;
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.attempt_answer.repository.AttemptAnswerRepository;
+import com.sisko.exam.master.attempt_answer_option.repository.AttemptAnswerOptionRepository;
+import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionEntity;
+import com.sisko.exam.master.exam_attempt.repository.ExamAttemptRepository;
+import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question_option.repository.QuestionOptionRepository;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +29,8 @@ public class AttemptService {
     private final GradingService gradingService;
 
     @Transactional
-    public ExamAttemptEntity startAttempt(Long examId, Long assignmentId, String username, int attemptNo) {
+    public ExamAttemptEntity startAttempt(String username, int attemptNo) {
         ExamAttemptEntity att = ExamAttemptEntity.builder()
-                .examId(examId)
-                .assignmentId(assignmentId)
                 .studentUsername(username)
                 .attemptNo(attemptNo)
                 .status(ExamAttemptStatus.IN_PROGRESS)
@@ -46,7 +44,7 @@ public class AttemptService {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).answerText(text).build());
+                .examAttempt(att).question(q).answerText(text).build());
         return aa;
     }
 
@@ -56,7 +54,7 @@ public class AttemptService {
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         QuestionOptionEntity opt = optionRepo.findById(optionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).selectedOption(opt).build());
+                .examAttempt(att).question(q).selectedOption(opt).build());
         return aa;
     }
 
@@ -65,13 +63,13 @@ public class AttemptService {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).build());
+                .examAttempt(att).question(q).build());
         for (Long oid : optionIds) {
             QuestionOptionEntity opt = optionRepo.findById(oid).orElseThrow();
             AttemptAnswerOptionEntity sel = AttemptAnswerOptionEntity.builder()
-                    .attemptAnswer(aa).option(opt).build();
+                    .attemptAnswer(aa).questionOption(opt).build();
             aaoRepo.save(sel);
-            aa.getSelectedOptions().add(sel);
+            aa.getAttemptAnswerOptions().add(sel);
         }
         return aa;
     }
@@ -80,7 +78,7 @@ public class AttemptService {
     public ExamAttemptEntity submit(Long attemptId) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         double total = 0.0;
-        for (AttemptAnswerEntity aa : att.getAnswers()) {
+        for (AttemptAnswerEntity aa : att.getAttemptAnswers()) {
             QuestionEntity q = aa.getQuestion();
             boolean correct = false;
             switch (q.getAnswerPolicy()) {
@@ -88,8 +86,8 @@ public class AttemptService {
                 case MULTI_ALL -> correct = gradingService.isMultiAllCorrect(aa);
                 case MULTI_PARTIAL -> {
 // simple partial example: ratio of correct picks / total correct if no wrong selected
-                    java.util.Set<Long> correctIds = q.getOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
-                    java.util.Set<Long> selIds = aa.getSelectedOptions().stream().map(a -> a.getOption().getId()).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<Long> correctIds = q.getQuestionOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<Long> selIds = aa.getAttemptAnswerOptions().stream().map(a -> a.getQuestionOption().getId()).collect(java.util.stream.Collectors.toSet());
                     if (!selIds.isEmpty() && selIds.stream().allMatch(correctIds::contains)) {
                         aa.setScore(q.getPointsDefault() * ((double) selIds.size() / (double) correctIds.size()));
                     } else {
@@ -102,7 +100,7 @@ public class AttemptService {
             aa.setScore(correct ? q.getPointsDefault() : 0.0);
             aa.setGradedAt(Instant.now());
         }
-        for (AttemptAnswerEntity aa : att.getAnswers()) {
+        for (AttemptAnswerEntity aa : att.getAttemptAnswers()) {
             if (aa.getScore() != null) total += aa.getScore();
         }
         att.setScoreTotal(total);

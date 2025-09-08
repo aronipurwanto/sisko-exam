@@ -1,6 +1,6 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.entity.ExamAssignmentEntity;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.service.ExamService;
 import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;

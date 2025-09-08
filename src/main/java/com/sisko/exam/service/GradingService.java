@@ -1,10 +1,10 @@
 package com.sisko.exam.service;
 
 import com.sisko.exam.enums.QuestionType;
-import com.sisko.exam.model.entity.AttemptAnswerEntity;
-import com.sisko.exam.model.entity.AttemptAnswerOptionEntity;
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.model.entity.QuestionOptionEntity;
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -25,12 +25,12 @@ public class GradingService {
         if (q.getQtype() != QuestionType.MCQ) return false;
 // Build sets
         Set<Long> correct = new HashSet<>();
-        for (QuestionOptionEntity opt : q.getOptions()) {
+        for (QuestionOptionEntity opt : q.getQuestionOptions()) {
             if (opt.isCorrect()) correct.add(opt.getId());
         }
         Set<Long> selected = new HashSet<>();
-        for (AttemptAnswerOptionEntity sel : aa.getSelectedOptions()) {
-            selected.add(sel.getOption().getId());
+        for (AttemptAnswerOptionEntity sel : aa.getAttemptAnswerOptions()) {
+            selected.add(sel.getAttemptAnswer().getId());
         }
         return !correct.isEmpty() && correct.equals(selected);
     }

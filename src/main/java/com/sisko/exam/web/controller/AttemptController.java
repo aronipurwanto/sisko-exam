@@ -1,7 +1,7 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.entity.AttemptAnswerEntity;
-import com.sisko.exam.model.entity.ExamAttemptEntity;
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.service.AttemptService;
 import com.sisko.exam.web.dto.AttemptDTOs;
 import jakarta.validation.Valid;
@@ -29,7 +29,7 @@ public class AttemptController {
 
     @PostMapping
     public ResponseEntity<AttemptDTOs.StartAttemptResp> start(@RequestBody @Valid AttemptDTOs.StartAttemptReq req, Authentication auth) {
-        ExamAttemptEntity att = attemptService.startAttempt(req.examId(), req.assignmentId(), auth.getName(), req.attemptNo());
+        ExamAttemptEntity att = attemptService.startAttempt(auth.getName(), req.attemptNo());
         log.info("Attempt started id={} by {}", att.getId(), auth.getName());
         return ResponseEntity.ok(new AttemptDTOs.StartAttemptResp(att.getId(), att.getStatus().name()));
     }

@@ -1,0 +1,10 @@
+package com.sisko.exam.master.user.repository;
+
+import com.sisko.exam.master.user.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+}
