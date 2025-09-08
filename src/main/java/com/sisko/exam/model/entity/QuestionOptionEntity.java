@@ -1,8 +1,11 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,7 +16,7 @@ import org.hibernate.annotations.SQLDelete;
 @Table(name = "question_options",
         uniqueConstraints = @UniqueConstraint(name = "uk_qo_label", columnNames = {"question_id","label"}))
 @SQLDelete(sql = "UPDATE question_options SET deleted_at=NOW() WHERE id=?")
-public class QuestionOption extends BaseAuditableSoftDelete {
+public class QuestionOptionEntity extends BaseAuditableSoftDelete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +24,7 @@ public class QuestionOption extends BaseAuditableSoftDelete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    private QuestionEntity question;
 
     @Column(length = 5, nullable = false)
     private String label; // A, B, C, ...
@@ -34,4 +37,7 @@ public class QuestionOption extends BaseAuditableSoftDelete {
 
     @Column(name = "order_index", nullable = false)
     private int orderIndex;
+
+    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttemptAnswerOptionEntity> selectedOptions = new ArrayList<>();
 }

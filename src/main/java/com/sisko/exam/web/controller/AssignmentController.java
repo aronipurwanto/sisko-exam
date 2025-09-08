@@ -1,6 +1,6 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.ExamAssignment;
+import com.sisko.exam.model.entity.ExamAssignmentEntity;
 import com.sisko.exam.service.ExamService;
 import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class AssignmentController {
 
 
     @PostMapping
-    public ResponseEntity<ExamAssignment> assign(@RequestBody AssignReq req) {
+    public ResponseEntity<ExamAssignmentEntity> assign(@RequestBody AssignReq req) {
         return ResponseEntity.ok(examService.assign(req.examId(), req.audienceCode(), req.start(), req.end(), req.maxAttempts(), req.accessCode()));
     }
 }

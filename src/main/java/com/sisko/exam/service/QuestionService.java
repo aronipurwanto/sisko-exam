@@ -1,7 +1,7 @@
 package com.sisko.exam.service;
 
-import com.sisko.exam.model.Question;
-import com.sisko.exam.model.QuestionOption;
+import com.sisko.exam.model.entity.QuestionEntity;
+import com.sisko.exam.model.entity.QuestionOptionEntity;
 import com.sisko.exam.repo.QuestionOptionRepository;
 import com.sisko.exam.repo.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +18,10 @@ public class QuestionService {
 
 
     @Transactional
-    public Question createQuestion(Question q, List<QuestionOption> options) {
-        Question saved = questionRepo.save(q);
+    public QuestionEntity createQuestion(QuestionEntity q, List<QuestionOptionEntity> options) {
+        QuestionEntity saved = questionRepo.save(q);
         int idx = 1;
-        for (QuestionOption o : options) {
+        for (QuestionOptionEntity o : options) {
             o.setQuestion(saved);
             o.setOrderIndex(idx++);
             optionRepo.save(o);

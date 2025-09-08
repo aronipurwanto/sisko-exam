@@ -1,4 +1,4 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "attempt_answers",
         uniqueConstraints = @UniqueConstraint(name = "uk_attempt_question", columnNames = {"attempt_id","question_id"}))
 @SQLDelete(sql = "UPDATE attempt_answers SET deleted_at=NOW() WHERE id=?")
-public class AttemptAnswer extends BaseAuditableSoftDelete {
+public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +25,18 @@ public class AttemptAnswer extends BaseAuditableSoftDelete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attempt_id", nullable = false)
-    private ExamAttempt attempt;
+    private ExamAttemptEntity attempt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+    private QuestionEntity question;
 
     @Column(name = "answer_text", columnDefinition = "MEDIUMTEXT")
     private String answerText; // for ESSAY
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "selected_option_id")
-    private QuestionOption selectedOption; // for SINGLE MCQ
+    private QuestionOptionEntity selectedOption; // for SINGLE MCQ
 
     @Column(name = "score")
     private Double score;
@@ -51,5 +51,5 @@ public class AttemptAnswer extends BaseAuditableSoftDelete {
     private String feedback;
 
     @OneToMany(mappedBy = "attemptAnswer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AttemptAnswerOption> selectedOptions = new ArrayList<>(); // for MULTI
+    private List<AttemptAnswerOptionEntity> selectedOptions = new ArrayList<>(); // for MULTI
 }

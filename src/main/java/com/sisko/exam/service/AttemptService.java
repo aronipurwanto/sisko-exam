@@ -1,7 +1,16 @@
 package com.sisko.exam.service;
 
-import com.sisko.exam.model.*;
-import com.sisko.exam.repo.*;
+import com.sisko.exam.enums.ExamAttemptStatus;
+import com.sisko.exam.model.entity.AttemptAnswerEntity;
+import com.sisko.exam.repo.AttemptAnswerRepository;
+import com.sisko.exam.repo.AttemptAnswerOptionRepository;
+import com.sisko.exam.model.entity.AttemptAnswerOptionEntity;
+import com.sisko.exam.repo.ExamAttemptRepository;
+import com.sisko.exam.model.entity.ExamAttemptEntity;
+import com.sisko.exam.model.entity.QuestionEntity;
+import com.sisko.exam.repo.QuestionOptionRepository;
+import com.sisko.exam.model.entity.QuestionOptionEntity;
+import com.sisko.exam.repo.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,46 +29,46 @@ public class AttemptService {
     private final GradingService gradingService;
 
     @Transactional
-    public ExamAttempt startAttempt(Long examId, Long assignmentId, String username, int attemptNo) {
-        ExamAttempt att = ExamAttempt.builder()
+    public ExamAttemptEntity startAttempt(Long examId, Long assignmentId, String username, int attemptNo) {
+        ExamAttemptEntity att = ExamAttemptEntity.builder()
                 .examId(examId)
                 .assignmentId(assignmentId)
                 .studentUsername(username)
                 .attemptNo(attemptNo)
-                .status(ExamAttempt.Status.IN_PROGRESS)
+                .status(ExamAttemptStatus.IN_PROGRESS)
                 .build();
         return attemptRepo.save(att);
     }
 
 
     @Transactional
-    public AttemptAnswer answerEssay(Long attemptId, Long questionId, String text) {
-        ExamAttempt att = attemptRepo.findById(attemptId).orElseThrow();
-        Question q = questionRepo.findById(questionId).orElseThrow();
-        AttemptAnswer aa = answerRepo.save(AttemptAnswer.builder()
+    public AttemptAnswerEntity answerEssay(Long attemptId, Long questionId, String text) {
+        ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
+        QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
+        AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
                 .attempt(att).question(q).answerText(text).build());
         return aa;
     }
 
     @Transactional
-    public AttemptAnswer answerSingleMcq(Long attemptId, Long questionId, Long optionId) {
-        ExamAttempt att = attemptRepo.findById(attemptId).orElseThrow();
-        Question q = questionRepo.findById(questionId).orElseThrow();
-        QuestionOption opt = optionRepo.findById(optionId).orElseThrow();
-        AttemptAnswer aa = answerRepo.save(AttemptAnswer.builder()
+    public AttemptAnswerEntity answerSingleMcq(Long attemptId, Long questionId, Long optionId) {
+        ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
+        QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
+        QuestionOptionEntity opt = optionRepo.findById(optionId).orElseThrow();
+        AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
                 .attempt(att).question(q).selectedOption(opt).build());
         return aa;
     }
 
     @Transactional
-    public AttemptAnswer answerMulti(Long attemptId, Long questionId, java.util.List<Long> optionIds) {
-        ExamAttempt att = attemptRepo.findById(attemptId).orElseThrow();
-        Question q = questionRepo.findById(questionId).orElseThrow();
-        AttemptAnswer aa = answerRepo.save(AttemptAnswer.builder()
+    public AttemptAnswerEntity answerMulti(Long attemptId, Long questionId, java.util.List<Long> optionIds) {
+        ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
+        QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
+        AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
                 .attempt(att).question(q).build());
         for (Long oid : optionIds) {
-            QuestionOption opt = optionRepo.findById(oid).orElseThrow();
-            AttemptAnswerOption sel = AttemptAnswerOption.builder()
+            QuestionOptionEntity opt = optionRepo.findById(oid).orElseThrow();
+            AttemptAnswerOptionEntity sel = AttemptAnswerOptionEntity.builder()
                     .attemptAnswer(aa).option(opt).build();
             aaoRepo.save(sel);
             aa.getSelectedOptions().add(sel);
@@ -68,18 +77,18 @@ public class AttemptService {
     }
 
     @Transactional
-    public ExamAttempt submit(Long attemptId) {
-        ExamAttempt att = attemptRepo.findById(attemptId).orElseThrow();
+    public ExamAttemptEntity submit(Long attemptId) {
+        ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         double total = 0.0;
-        for (AttemptAnswer aa : att.getAnswers()) {
-            Question q = aa.getQuestion();
+        for (AttemptAnswerEntity aa : att.getAnswers()) {
+            QuestionEntity q = aa.getQuestion();
             boolean correct = false;
             switch (q.getAnswerPolicy()) {
                 case SINGLE -> correct = gradingService.isSingleCorrect(aa);
                 case MULTI_ALL -> correct = gradingService.isMultiAllCorrect(aa);
                 case MULTI_PARTIAL -> {
 // simple partial example: ratio of correct picks / total correct if no wrong selected
-                    java.util.Set<Long> correctIds = q.getOptions().stream().filter(QuestionOption::isCorrect).map(QuestionOption::getId).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<Long> correctIds = q.getOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
                     java.util.Set<Long> selIds = aa.getSelectedOptions().stream().map(a -> a.getOption().getId()).collect(java.util.stream.Collectors.toSet());
                     if (!selIds.isEmpty() && selIds.stream().allMatch(correctIds::contains)) {
                         aa.setScore(q.getPointsDefault() * ((double) selIds.size() / (double) correctIds.size()));
@@ -93,12 +102,12 @@ public class AttemptService {
             aa.setScore(correct ? q.getPointsDefault() : 0.0);
             aa.setGradedAt(Instant.now());
         }
-        for (AttemptAnswer aa : att.getAnswers()) {
+        for (AttemptAnswerEntity aa : att.getAnswers()) {
             if (aa.getScore() != null) total += aa.getScore();
         }
         att.setScoreTotal(total);
         att.setSubmittedAt(Instant.now());
-        att.setStatus(ExamAttempt.Status.SUBMITTED);
+        att.setStatus(ExamAttemptStatus.SUBMITTED);
         return att;
     }
 }

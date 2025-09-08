@@ -1,7 +1,9 @@
 package com.sisko.exam.web.controller;
 
-import com.sisko.exam.model.Question;
-import com.sisko.exam.model.QuestionOption;
+import com.sisko.exam.enums.QuestionAnswerPolicy;
+import com.sisko.exam.enums.QuestionType;
+import com.sisko.exam.model.entity.QuestionEntity;
+import com.sisko.exam.model.entity.QuestionOptionEntity;
 import com.sisko.exam.repo.QuestionRepository;
 import com.sisko.exam.service.QuestionService;
 import com.sisko.exam.web.dto.QuestionDTOs;
@@ -31,31 +33,31 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<QuestionDTOs.QuestionResp> create(@RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
-        Question q = Question.builder()
+        QuestionEntity q = QuestionEntity.builder()
                 .qtype(req.qtype())
                 .answerPolicy(req.answerPolicy())
                 .stem(req.stem())
                 .pointsDefault(req.pointsDefault())
                 .build();
-        List<QuestionOption> options = req.options() == null ? java.util.List.of() : req.options().stream()
-                .map(o -> QuestionOption.builder().label(o.label()).content(o.content()).correct(o.correct()).build())
+        List<QuestionOptionEntity> options = req.options() == null ? java.util.List.of() : req.options().stream()
+                .map(o -> QuestionOptionEntity.builder().label(o.label()).content(o.content()).correct(o.correct()).build())
                 .toList();
-        Question saved = questionService.createQuestion(q, options);
+        QuestionEntity saved = questionService.createQuestion(q, options);
         log.info("Created question id={}", saved.getId());
         return ResponseEntity.ok(new QuestionDTOs.QuestionResp(saved.getId(), saved.getStem(), saved.getQtype(), saved.getAnswerPolicy(), saved.getPointsDefault()));
     }
 
 
     @GetMapping
-    public Page<Question> list(
-            @RequestParam(required = false) Question.Type qtype,
-            @RequestParam(required = false) Question.AnswerPolicy policy,
+    public Page<QuestionEntity> list(
+            @RequestParam(required = false) QuestionType qtype,
+            @RequestParam(required = false) QuestionAnswerPolicy policy,
             @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Specification<Question> spec = Specification.where(null);
+        Specification<QuestionEntity> spec = Specification.where(null);
         if (qtype != null) spec = spec.and((root, q, cb) -> cb.equal(root.get("qtype"), qtype));
         if (policy != null) spec = spec.and((root, q, cb) -> cb.equal(root.get("answerPolicy"), policy));
         if (keyword != null && !keyword.isBlank()) spec = spec.and((root, q, cb) -> cb.like(cb.lower(root.get("stem")), "%" + keyword.toLowerCase() + "%"));
@@ -64,12 +66,12 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public Question get(@PathVariable Long id) { return questionRepo.findById(id).orElseThrow(); }
+    public QuestionEntity get(@PathVariable Long id) { return questionRepo.findById(id).orElseThrow(); }
 
 
     @PutMapping("/{id}")
-    public Question update(@PathVariable Long id, @RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
-        Question q = questionRepo.findById(id).orElseThrow();
+    public QuestionEntity update(@PathVariable Long id, @RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
+        QuestionEntity q = questionRepo.findById(id).orElseThrow();
         q.setQtype(req.qtype());
         q.setAnswerPolicy(req.answerPolicy());
         q.setStem(req.stem());
@@ -78,7 +80,7 @@ public class QuestionController {
         q.getOptions().clear();
         int idx = 1;
         for (QuestionDTOs.OptionReq o : req.options()) {
-            QuestionOption qo = QuestionOption.builder().question(q).label(o.label()).content(o.content()).correct(o.correct()).orderIndex(idx++).build();
+            QuestionOptionEntity qo = QuestionOptionEntity.builder().question(q).label(o.label()).content(o.content()).correct(o.correct()).orderIndex(idx++).build();
             q.getOptions().add(qo);
         }
         return questionRepo.save(q);

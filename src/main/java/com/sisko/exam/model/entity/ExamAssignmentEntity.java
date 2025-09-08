@@ -1,4 +1,4 @@
-package com.sisko.exam.model;
+package com.sisko.exam.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,19 +7,23 @@ import org.hibernate.annotations.SQLDelete;
 
 import java.time.Instant;
 
-
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "exam_assignments", uniqueConstraints = @UniqueConstraint(name = "uk_ea", columnNames = {"exam_id","group_label"}))
 @SQLDelete(sql = "UPDATE exam_assignments SET deleted_at=NOW() WHERE id=?")
-public class ExamAssignment extends BaseAuditableSoftDelete {
+public class ExamAssignmentEntity extends BaseAuditableSoftDelete {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    private ExamEntity exam;
 
     @Column(name = "group_label", nullable = false)
     private String groupLabel; // placeholder for class identifier

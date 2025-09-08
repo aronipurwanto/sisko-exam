@@ -11,5 +11,4 @@ public class SiskoExamApp {
     public static void main(String[] args) {
         SpringApplication.run(SiskoExamApp.class, args);
     }
-
 }

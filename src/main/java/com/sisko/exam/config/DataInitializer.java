@@ -15,15 +15,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer {
     private final PasswordEncoder encoder;
 
-
     @Bean
     CommandLineRunner seedUsers(UserRepository repo) {
         return args -> {
             if (repo.findByEmail("teacher1@example.com").isEmpty()) {
-                repo.save(User.builder().email("teacher1@example.com").passwordHash(encoder.encode("secret")).fullName("Teacher One").role(Role.TEACHER).build());
+                repo.save(User.builder()
+                        .email("teacher1@example.com")
+                        .passwordHash(encoder.encode("secret"))
+                        .fullName("Teacher One")
+                        .role(Role.TEACHER)
+                        .build());
             }
             if (repo.findByEmail("student1@example.com").isEmpty()) {
-                repo.save(User.builder().email("student1@example.com").passwordHash(encoder.encode("secret")).fullName("Student One").role(Role.STUDENT).build());
+                repo.save(User.builder()
+                        .email("student1@example.com")
+                        .passwordHash(encoder.encode("secret"))
+                        .fullName("Student One")
+                        .role(Role.STUDENT)
+                        .build());
             }
         };
     }

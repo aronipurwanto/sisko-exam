@@ -1,7 +1,7 @@
 package com.sisko.exam.repo;
 
-import com.sisko.exam.model.ExamQuestion;
+import com.sisko.exam.model.entity.ExamQuestionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ExamQuestionRepository extends JpaRepository<ExamQuestion, Long> {}
+public interface ExamQuestionRepository extends JpaRepository<ExamQuestionEntity, Long> {}
