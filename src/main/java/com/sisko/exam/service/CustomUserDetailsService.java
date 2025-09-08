@@ -1,6 +1,6 @@
 package com.sisko.exam.service;
 
-import com.sisko.exam.repo.UserRepository;
+import com.sisko.exam.master.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

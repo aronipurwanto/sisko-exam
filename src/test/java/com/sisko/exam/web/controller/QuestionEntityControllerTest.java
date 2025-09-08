@@ -3,7 +3,7 @@ package com.sisko.exam.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
-import com.sisko.exam.model.entity.QuestionEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

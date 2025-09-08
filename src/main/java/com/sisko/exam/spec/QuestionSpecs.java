@@ -2,7 +2,7 @@ package com.sisko.exam.spec;
 
 import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
-import com.sisko.exam.model.entity.QuestionEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 

@@ -1,14 +1,14 @@
 package com.sisko.exam.service;
 
 import com.sisko.exam.enums.ExamStatus;
-import com.sisko.exam.model.entity.ExamEntity;
-import com.sisko.exam.repo.ExamAssignmentRepository;
-import com.sisko.exam.model.entity.ExamAssignmentEntity;
-import com.sisko.exam.repo.ExamQuestionRepository;
-import com.sisko.exam.model.entity.ExamQuestionEntity;
-import com.sisko.exam.repo.ExamRepository;
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.repo.QuestionRepository;
+import com.sisko.exam.master.exam.model.ExamEntity;
+import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
+import com.sisko.exam.master.exam_question.repository.ExamQuestionRepository;
+import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.exam.repository.ExamRepository;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,9 +2,9 @@ package com.sisko.exam.web.controller;
 
 import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.model.entity.QuestionOptionEntity;
-import com.sisko.exam.repo.QuestionRepository;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question.repository.QuestionRepository;
 import com.sisko.exam.service.QuestionService;
 import com.sisko.exam.web.dto.QuestionDTOs;
 import jakarta.validation.Valid;

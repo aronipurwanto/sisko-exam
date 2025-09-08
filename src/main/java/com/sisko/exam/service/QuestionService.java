@@ -1,9 +1,9 @@
 package com.sisko.exam.service;
 
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.model.entity.QuestionOptionEntity;
-import com.sisko.exam.repo.QuestionOptionRepository;
-import com.sisko.exam.repo.QuestionRepository;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question_option.repository.QuestionOptionRepository;
+import com.sisko.exam.master.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

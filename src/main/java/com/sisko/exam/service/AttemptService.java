@@ -1,16 +1,16 @@
 package com.sisko.exam.service;
 
 import com.sisko.exam.enums.ExamAttemptStatus;
-import com.sisko.exam.model.entity.AttemptAnswerEntity;
-import com.sisko.exam.repo.AttemptAnswerRepository;
-import com.sisko.exam.repo.AttemptAnswerOptionRepository;
-import com.sisko.exam.model.entity.AttemptAnswerOptionEntity;
-import com.sisko.exam.repo.ExamAttemptRepository;
-import com.sisko.exam.model.entity.ExamAttemptEntity;
-import com.sisko.exam.model.entity.QuestionEntity;
-import com.sisko.exam.repo.QuestionOptionRepository;
-import com.sisko.exam.model.entity.QuestionOptionEntity;
-import com.sisko.exam.repo.QuestionRepository;
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.attempt_answer.repository.AttemptAnswerRepository;
+import com.sisko.exam.master.attempt_answer_option.repository.AttemptAnswerOptionRepository;
+import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionEntity;
+import com.sisko.exam.master.exam_attempt.repository.ExamAttemptRepository;
+import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question_option.repository.QuestionOptionRepository;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +29,8 @@ public class AttemptService {
     private final GradingService gradingService;
 
     @Transactional
-    public ExamAttemptEntity startAttempt(Long examId, Long assignmentId, String username, int attemptNo) {
+    public ExamAttemptEntity startAttempt(String username, int attemptNo) {
         ExamAttemptEntity att = ExamAttemptEntity.builder()
-                .examId(examId)
-                .assignmentId(assignmentId)
                 .studentUsername(username)
                 .attemptNo(attemptNo)
                 .status(ExamAttemptStatus.IN_PROGRESS)
