@@ -25,7 +25,7 @@ public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attempt_id", nullable = false)
-    private ExamAttemptEntity attempt;
+    private ExamAttemptEntity examAttempt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
@@ -51,5 +51,5 @@ public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
     private String feedback;
 
     @OneToMany(mappedBy = "attemptAnswer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AttemptAnswerOptionEntity> selectedOptions = new ArrayList<>(); // for MULTI
+    private List<AttemptAnswerOptionEntity> attemptAnswerOptions = new ArrayList<>(); // for MULTI
 }

@@ -50,6 +50,6 @@ public class ExamAttemptEntity extends BaseAuditableSoftDelete {
     @Column(name = "score_total")
     private Double scoreTotal;
 
-    @OneToMany(mappedBy = "attempt", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AttemptAnswerEntity> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "examAttempt", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttemptAnswerEntity> attemptAnswers = new ArrayList<>();
 }

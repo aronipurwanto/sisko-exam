@@ -46,7 +46,7 @@ public class AttemptService {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).answerText(text).build());
+                .examAttempt(att).question(q).answerText(text).build());
         return aa;
     }
 
@@ -56,7 +56,7 @@ public class AttemptService {
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         QuestionOptionEntity opt = optionRepo.findById(optionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).selectedOption(opt).build());
+                .examAttempt(att).question(q).selectedOption(opt).build());
         return aa;
     }
 
@@ -65,13 +65,13 @@ public class AttemptService {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .attempt(att).question(q).build());
+                .examAttempt(att).question(q).build());
         for (Long oid : optionIds) {
             QuestionOptionEntity opt = optionRepo.findById(oid).orElseThrow();
             AttemptAnswerOptionEntity sel = AttemptAnswerOptionEntity.builder()
-                    .attemptAnswer(aa).option(opt).build();
+                    .attemptAnswer(aa).questionOption(opt).build();
             aaoRepo.save(sel);
-            aa.getSelectedOptions().add(sel);
+            aa.getAttemptAnswerOptions().add(sel);
         }
         return aa;
     }
@@ -80,7 +80,7 @@ public class AttemptService {
     public ExamAttemptEntity submit(Long attemptId) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         double total = 0.0;
-        for (AttemptAnswerEntity aa : att.getAnswers()) {
+        for (AttemptAnswerEntity aa : att.getAttemptAnswers()) {
             QuestionEntity q = aa.getQuestion();
             boolean correct = false;
             switch (q.getAnswerPolicy()) {
@@ -88,8 +88,8 @@ public class AttemptService {
                 case MULTI_ALL -> correct = gradingService.isMultiAllCorrect(aa);
                 case MULTI_PARTIAL -> {
 // simple partial example: ratio of correct picks / total correct if no wrong selected
-                    java.util.Set<Long> correctIds = q.getOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
-                    java.util.Set<Long> selIds = aa.getSelectedOptions().stream().map(a -> a.getOption().getId()).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<Long> correctIds = q.getQuestionOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<Long> selIds = aa.getAttemptAnswerOptions().stream().map(a -> a.getQuestionOption().getId()).collect(java.util.stream.Collectors.toSet());
                     if (!selIds.isEmpty() && selIds.stream().allMatch(correctIds::contains)) {
                         aa.setScore(q.getPointsDefault() * ((double) selIds.size() / (double) correctIds.size()));
                     } else {
@@ -102,7 +102,7 @@ public class AttemptService {
             aa.setScore(correct ? q.getPointsDefault() : 0.0);
             aa.setGradedAt(Instant.now());
         }
-        for (AttemptAnswerEntity aa : att.getAnswers()) {
+        for (AttemptAnswerEntity aa : att.getAttemptAnswers()) {
             if (aa.getScore() != null) total += aa.getScore();
         }
         att.setScoreTotal(total);

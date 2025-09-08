@@ -39,7 +39,7 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
-    private List<QuestionOptionEntity> options = new ArrayList<>();
+    private List<QuestionOptionEntity> questionOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttemptAnswerEntity>  attemptAnswers = new ArrayList<>();

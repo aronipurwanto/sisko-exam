@@ -77,11 +77,11 @@ public class QuestionController {
         q.setStem(req.stem());
         q.setPointsDefault(req.pointsDefault());
 // Options update strategy: replace all (simple)
-        q.getOptions().clear();
+        q.getQuestionOptions().clear();
         int idx = 1;
         for (QuestionDTOs.OptionReq o : req.options()) {
             QuestionOptionEntity qo = QuestionOptionEntity.builder().question(q).label(o.label()).content(o.content()).correct(o.correct()).orderIndex(idx++).build();
-            q.getOptions().add(qo);
+            q.getQuestionOptions().add(qo);
         }
         return questionRepo.save(q);
     }

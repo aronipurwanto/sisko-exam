@@ -25,12 +25,12 @@ public class GradingService {
         if (q.getQtype() != QuestionType.MCQ) return false;
 // Build sets
         Set<Long> correct = new HashSet<>();
-        for (QuestionOptionEntity opt : q.getOptions()) {
+        for (QuestionOptionEntity opt : q.getQuestionOptions()) {
             if (opt.isCorrect()) correct.add(opt.getId());
         }
         Set<Long> selected = new HashSet<>();
-        for (AttemptAnswerOptionEntity sel : aa.getSelectedOptions()) {
-            selected.add(sel.getOption().getId());
+        for (AttemptAnswerOptionEntity sel : aa.getAttemptAnswerOptions()) {
+            selected.add(sel.getAttemptAnswer().getId());
         }
         return !correct.isEmpty() && correct.equals(selected);
     }
