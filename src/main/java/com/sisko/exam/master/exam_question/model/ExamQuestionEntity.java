@@ -32,6 +32,7 @@ public class ExamQuestionEntity extends BaseAuditableSoftDelete {
     @Column(name = "order_index", nullable = false)
     private int orderIndex;
 
+    @Builder.Default
     @Column(nullable = false)
     private boolean required = true;
 }

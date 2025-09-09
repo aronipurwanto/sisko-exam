@@ -36,6 +36,7 @@ public class ExamAssignmentEntity extends BaseAuditableSoftDelete {
     @Column(name = "end_at", nullable = false)
     private Instant endAt;
 
+    @Builder.Default
     @Column(name = "max_attempts", nullable = false)
     private int maxAttempts = 1;
 

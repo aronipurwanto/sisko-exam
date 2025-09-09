@@ -31,6 +31,7 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     @Column(nullable = false, length = 10)
     private QuestionType qtype;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "answer_policy", nullable = false, length = 12)
     private QuestionAnswerPolicy answerPolicy = QuestionAnswerPolicy.SINGLE;
@@ -38,6 +39,7 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String stem;
 
+    @Builder.Default
     @Column(name = "points_default", nullable = false)
     private double pointsDefault = 1.0;
 

@@ -22,7 +22,7 @@ public class GradingService {
      */
     public boolean isMultiAllCorrect(AttemptAnswerEntity aa) {
         QuestionEntity q = aa.getQuestion();
-        if (q.getQtype() != QuestionType.MCQ) return false;
+        if (q.getQtype() != QuestionType.MCO) return false;
 // Build sets
         Set<Long> correct = new HashSet<>();
         for (QuestionOptionEntity opt : q.getQuestionOptions()) {
@@ -38,7 +38,7 @@ public class GradingService {
 
     /** SINGLE MCQ **/
     public boolean isSingleCorrect(AttemptAnswerEntity aa) {
-        if (aa.getSelectedOption() == null) return false;
-        return aa.getSelectedOption().isCorrect();
+        if (aa.getQuestionOption() == null) return false;
+        return aa.getQuestionOption().isCorrect();
     }
 }
