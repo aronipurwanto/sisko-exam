@@ -5,7 +5,7 @@ spring:
     password: P@ssW0rd32!
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
@@ -22,6 +22,7 @@ app:
   jwt:
     secret: K8y2KYfZKobypjZMDCr5Xg/eRAjf+lHTPf6J5K16OjVq/5SMjk4n8iql98KQ+4vbCvL6Orzs3QLJH00bb35duA==
     exp-minutes: 3600000 #1 hour
+    refresh-minutes: 86400000 #24 hours
 
 logging:
   level:

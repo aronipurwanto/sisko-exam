@@ -75,13 +75,14 @@ entity AttemptAnswerOption {
     * id : long <<generated>>
 }
 
-Question |O--|{ QuestionOption
+Question |o--|{ QuestionOption
 Exam ||--|{ ExamAssignment
-QuestionOption ||--|{ AttemptAnswerOption
+QuestionOption |o--|{ AttemptAnswerOption
 Question ||--|{ AttemptAnswer
 ExamAttempt ||--|{ AttemptAnswer
-AttemptAnswer |O--|{ AttemptAnswerOption
+AttemptAnswer |o--|{ AttemptAnswerOption
 Exam ||--|{ ExamQuestion
 Question ||--|{ ExamQuestion
 Exam ||--|{ ExamAttempt
+QuestionOption |o--|{ AttemptAnswer
 @enduml

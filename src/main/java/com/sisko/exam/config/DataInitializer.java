@@ -7,7 +7,7 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.repository.QuestionRepository;
-import com.sisko.exam.master.user.model.User;
+import com.sisko.exam.master.user.model.UserEntity;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.repository.ExamRepository;
 import com.sisko.exam.master.user.repository.UserRepository;
@@ -31,32 +31,34 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         setUserRepo();
-        initAllTable();
+        initTables();
     }
 
     private void setUserRepo() {
         if (!userRepo.findAll().isEmpty()) return;
 
         if (userRepo.findByEmail("student1@example.com").isEmpty()) {
-            userRepo.save(User.builder()
-                    .email("student1@example.com")
-                    .passwordHash(encoder.encode("secret"))
-                    .fullName("Student One")
-                    .role(Role.STUDENT)
+            userRepo.save(UserEntity.builder()
+                            .username("student1")
+                            .email("student1@example.com")
+                            .password(encoder.encode("secret"))
+                            .fullName("Student One")
+                            .role(Role.STUDENT)
                     .build());
         }
 
         if (userRepo.findByEmail("teacher1@example.com").isEmpty()) {
-            userRepo.save(User.builder()
-                    .email("teacher1@example.com")
-                    .passwordHash(encoder.encode("secret"))
-                    .fullName("Teacher One")
-                    .role(Role.TEACHER)
+            userRepo.save(UserEntity.builder()
+                            .username("teacher1")
+                            .email("teacher1@example.com")
+                            .password(encoder.encode("secret"))
+                            .fullName("Teacher One")
+                            .role(Role.TEACHER)
                     .build());
         }
     }
 
-    private void initAllTable() {
+    private void initTables() {
         if (!examRepo.findAll().isEmpty()) return;
 
         //exams

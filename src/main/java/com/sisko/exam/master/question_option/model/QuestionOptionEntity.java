@@ -1,5 +1,6 @@
 package com.sisko.exam.master.question_option.model;
 
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
 import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionEntity;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
@@ -40,6 +41,9 @@ public class QuestionOptionEntity extends BaseAuditableSoftDelete {
 
     @Column(name = "order_index", nullable = false)
     private int orderIndex;
+
+    @OneToMany(mappedBy = "questionOption", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttemptAnswerEntity> attemptAnswers = new ArrayList<>();
 
     @OneToMany(mappedBy = "questionOption", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttemptAnswerOptionEntity> attemptAnswerOptions = new ArrayList<>();
