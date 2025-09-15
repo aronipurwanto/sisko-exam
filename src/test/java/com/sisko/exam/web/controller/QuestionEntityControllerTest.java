@@ -34,11 +34,11 @@ class QuestionEntityControllerTest {
     @Test
     void createQuestion_validation_ok() throws Exception {
         var req = new com.sisko.exam.web.dto.QuestionDTOs.CreateQuestionReq(
-                QuestionType.MCQ, QuestionAnswerPolicy.MULTI_ALL, "stem", 1.0,
+                QuestionType.MCO, QuestionAnswerPolicy.MULTI_ALL, "stem", 1.0,
                 List.of(new com.sisko.exam.web.dto.QuestionDTOs.OptionReq("A","opt", true))
         );
         Mockito.when(questionService.createQuestion(Mockito.any(), Mockito.anyList()))
-                .thenReturn(QuestionEntity.builder().id(1L).qtype(QuestionType.MCQ).answerPolicy(QuestionAnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
+                .thenReturn(QuestionEntity.builder().id(1L).qtype(QuestionType.MCO).answerPolicy(QuestionAnswerPolicy.MULTI_ALL).stem("stem").pointsDefault(1.0).build());
         mvc.perform(post("/api/questions").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(req)))
                 .andExpect(status().isOk());
     }

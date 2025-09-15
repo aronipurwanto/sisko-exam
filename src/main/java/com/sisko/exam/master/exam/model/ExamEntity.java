@@ -2,6 +2,8 @@ package com.sisko.exam.master.exam.model;
 
 import com.sisko.exam.enums.ExamStatus;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
+import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -58,4 +60,10 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
     private List<ExamQuestionEntity> examQuestions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true)
+    private List<ExamAssignmentEntity> examAssignments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true)
+    private List<ExamAttemptEntity> examAttempts = new ArrayList<>();
 }

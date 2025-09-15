@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class GradingServiceTest {
     @Test
     void multiAll_requires_exact_set() {
-        QuestionEntity q = QuestionEntity.builder().id(1L).qtype(QuestionType.MCQ).answerPolicy(QuestionAnswerPolicy.MULTI_ALL).stem("s").pointsDefault(1).build();
+        QuestionEntity q = QuestionEntity.builder().id(1L).qtype(QuestionType.MCO).answerPolicy(QuestionAnswerPolicy.MULTI_ALL).stem("s").pointsDefault(1).build();
         QuestionOptionEntity a = QuestionOptionEntity.builder().id(10L).question(q).correct(true).label("A").orderIndex(1).content("2").build();
         QuestionOptionEntity b = QuestionOptionEntity.builder().id(11L).question(q).correct(true).label("B").orderIndex(2).content("3").build();
         QuestionOptionEntity c = QuestionOptionEntity.builder().id(12L).question(q).correct(false).label("C").orderIndex(3).content("4").build();

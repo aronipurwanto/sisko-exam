@@ -3,7 +3,7 @@
 entity Question {
     * id : long <<generated>>
     --
-    * qtype : enum <ESSAY, MCQ>
+    * qtype : enum <ESSAY, MCO>
     * answerPolicy : enum <SINGLE, MULTI_ALL, MULTI_PARTIAL>
     * stem : string
     * pointsDefault : double
@@ -75,12 +75,14 @@ entity AttemptAnswerOption {
     * id : long <<generated>>
 }
 
-Question ||--|{ QuestionOption
+Question |o--|{ QuestionOption
 Exam ||--|{ ExamAssignment
-QuestionOption ||--|{ AttemptAnswerOption
+QuestionOption |o--|{ AttemptAnswerOption
 Question ||--|{ AttemptAnswer
 ExamAttempt ||--|{ AttemptAnswer
-AttemptAnswer ||--|{ AttemptAnswerOption
+AttemptAnswer |o--|{ AttemptAnswerOption
 Exam ||--|{ ExamQuestion
 Question ||--|{ ExamQuestion
+Exam ||--|{ ExamAttempt
+QuestionOption |o--|{ AttemptAnswer
 @enduml

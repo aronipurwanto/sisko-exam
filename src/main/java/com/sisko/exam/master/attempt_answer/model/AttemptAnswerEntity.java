@@ -41,7 +41,7 @@ public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "selected_option_id")
-    private QuestionOptionEntity selectedOption; // for SINGLE MCQ
+    private QuestionOptionEntity questionOption; // for SINGLE MCQ
 
     @Column(name = "score")
     private Double score;

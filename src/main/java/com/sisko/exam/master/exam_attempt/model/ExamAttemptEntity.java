@@ -3,6 +3,7 @@ package com.sisko.exam.master.exam_attempt.model;
 import com.sisko.exam.enums.ExamAttemptStatus;
 import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
+import com.sisko.exam.master.exam.model.ExamEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -27,18 +28,25 @@ public class ExamAttemptEntity extends BaseAuditableSoftDelete {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exam_id",  nullable = false)
+    private ExamEntity exam;
+
     @Column(name = "student_username", nullable = false)
     private String studentUsername; // from Security principal
 
+    @Builder.Default
     @Column(name = "attempt_no", nullable = false)
     private int attemptNo = 1;
 
+    @Builder.Default
     @Column(name = "started_at", nullable = false)
     private Instant startedAt = Instant.now();
 
     @Column(name = "submitted_at")
     private Instant submittedAt;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ExamAttemptStatus status = ExamAttemptStatus.IN_PROGRESS;

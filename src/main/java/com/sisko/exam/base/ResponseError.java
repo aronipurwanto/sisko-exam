@@ -2,12 +2,12 @@ package com.sisko.exam.base;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
-public record ResponseError(LocalDateTime timestamp, int status, String message, Object error) {
+public record ResponseError(Instant timestamp, int status, String message, Object error) {
 
     public ResponseError(int status, String message, Object error) {
-        this(LocalDateTime.now(), status, message, error);
+        this(Instant.now(), status, message, error);
     }
 }

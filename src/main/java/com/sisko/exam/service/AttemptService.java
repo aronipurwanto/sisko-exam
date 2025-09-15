@@ -54,7 +54,7 @@ public class AttemptService {
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         QuestionOptionEntity opt = optionRepo.findById(optionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
-                .examAttempt(att).question(q).selectedOption(opt).build());
+                .examAttempt(att).question(q).questionOption(opt).build());
         return aa;
     }
 
