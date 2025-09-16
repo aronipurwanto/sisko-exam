@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 
 
-record AssignReq(@NotNull Long examId,
+record AssignReq(@NotNull String  examId,
                  @NotBlank String audienceCode,
                  @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
                  @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
@@ -20,7 +20,7 @@ record AssignReq(@NotNull Long examId,
                  String accessCode) {}
 
 
-@RestController
+@RestController("/assignmentControllerEx")
 @RequestMapping("/api/assignments")
 @RequiredArgsConstructor
 public class AssignmentController {

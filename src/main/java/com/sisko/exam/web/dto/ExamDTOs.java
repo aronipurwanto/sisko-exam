@@ -8,11 +8,11 @@ import java.util.List;
 public class ExamDTOs {
     public record CreateExamReq(@NotBlank String name, String instructions, @Positive int durationMinutes,
                                 Boolean randomizeQuestions, Boolean randomizeOptions, Instant startAt, Instant endAt) {}
-    public record ExamResp(Long id, String name, String status) {}
+    public record ExamResp(String id, String name, String status) {}
 
 
     public record AddQuestionsReq(@NotEmpty List<Item> items) {
-        public record Item(@NotNull Long questionId, @Positive double points, @Positive int orderIndex, Boolean required) {}
+        public record Item(@NotNull String questionId, @Positive double points, @Positive int orderIndex, Boolean required) {}
     }
 
 

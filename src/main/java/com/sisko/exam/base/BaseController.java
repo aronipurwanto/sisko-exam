@@ -36,5 +36,25 @@ public class BaseController<T> {
             );
         }
     }
+
+    public ResponseEntity<Response> getResponse(T result) {
+        if (result != null) {
+            return ResponseEntity.ok(
+                    Response.builder()
+                            .status(HttpStatus.OK.value())
+                            .message(HttpStatus.OK.name())
+                            .data(result)
+                            .build()
+            );
+        } else {
+            return ResponseEntity.badRequest().body(
+                    Response.builder()
+                            .status(HttpStatus.BAD_REQUEST.value())
+                            .message(HttpStatus.BAD_REQUEST.name())
+                            .data(null)
+                            .build()
+            );
+        }
+    }
 }
 

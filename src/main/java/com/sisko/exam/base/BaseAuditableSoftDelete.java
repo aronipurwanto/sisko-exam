@@ -3,6 +3,7 @@ package com.sisko.exam.base;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
@@ -29,7 +30,6 @@ public abstract class BaseAuditableSoftDelete {
     @Column(name = "created_by", updatable = false)
     private String createdBy;
 
-    @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
 
@@ -42,4 +42,9 @@ public abstract class BaseAuditableSoftDelete {
 
     @Column(name = "deleted_by")
     private String deletedBy;
+
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedAt = Instant.now();
+    }
 }

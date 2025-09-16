@@ -19,8 +19,8 @@ import org.hibernate.annotations.SQLDelete;
 public class AttemptAnswerOptionEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "attempt_answer_id", nullable = false)

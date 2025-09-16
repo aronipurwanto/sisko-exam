@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController
+@RestController("questionControllerEx")
 @RequestMapping("/api/questions")
 @RequiredArgsConstructor
 public class QuestionController {
@@ -35,7 +35,7 @@ public class QuestionController {
     public ResponseEntity<QuestionDTOs.QuestionResp> create(@RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
         QuestionEntity q = QuestionEntity.builder()
                 .qtype(req.qtype())
-                .answerPolicy(req.answerPolicy())
+                .questionAnswerPolicy(req.answerPolicy())
                 .stem(req.stem())
                 .pointsDefault(req.pointsDefault())
                 .build();
@@ -44,7 +44,7 @@ public class QuestionController {
                 .toList();
         QuestionEntity saved = questionService.createQuestion(q, options);
         log.info("Created question id={}", saved.getId());
-        return ResponseEntity.ok(new QuestionDTOs.QuestionResp(saved.getId(), saved.getStem(), saved.getQtype(), saved.getAnswerPolicy(), saved.getPointsDefault()));
+        return ResponseEntity.ok(new QuestionDTOs.QuestionResp(saved.getId(), saved.getStem(), saved.getQtype(), saved.getQuestionAnswerPolicy(), saved.getPointsDefault()));
     }
 
 
@@ -66,14 +66,14 @@ public class QuestionController {
 
 
     @GetMapping("/{id}")
-    public QuestionEntity get(@PathVariable Long id) { return questionRepo.findById(id).orElseThrow(); }
+    public QuestionEntity get(@PathVariable String id) { return questionRepo.findById(id).orElseThrow(); }
 
 
     @PutMapping("/{id}")
-    public QuestionEntity update(@PathVariable Long id, @RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
+    public QuestionEntity update(@PathVariable String id, @RequestBody @Valid QuestionDTOs.CreateQuestionReq req) {
         QuestionEntity q = questionRepo.findById(id).orElseThrow();
         q.setQtype(req.qtype());
-        q.setAnswerPolicy(req.answerPolicy());
+        q.setQuestionAnswerPolicy(req.answerPolicy());
         q.setStem(req.stem());
         q.setPointsDefault(req.pointsDefault());
 // Options update strategy: replace all (simple)
@@ -88,7 +88,7 @@ public class QuestionController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         questionRepo.deleteById(id); // soft delete via @SQLDelete
         return ResponseEntity.noContent().build();
     }

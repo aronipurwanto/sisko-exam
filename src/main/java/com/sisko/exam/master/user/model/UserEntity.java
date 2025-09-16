@@ -5,6 +5,11 @@ import com.sisko.exam.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +19,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted_at=NOW() WHERE id=?")
-public class UserEntity extends BaseAuditableSoftDelete {
+public class UserEntity extends BaseAuditableSoftDelete implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +41,9 @@ public class UserEntity extends BaseAuditableSoftDelete {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.STUDENT;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 }

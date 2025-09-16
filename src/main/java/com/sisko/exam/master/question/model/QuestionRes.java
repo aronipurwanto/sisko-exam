@@ -11,9 +11,9 @@ import lombok.*;
 @Builder
 public class QuestionRes {
 
-    private Long id;
+    private String id;
     private QuestionType qtype;
-    private QuestionAnswerPolicy answerPolicy;
+    private QuestionAnswerPolicy questionAnswerPolicy;
     private String stem;
     private double pointsDefault;
 }

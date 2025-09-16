@@ -25,5 +25,5 @@ public class QuestionDTOs {
             List<@Valid OptionReq> options
     ) {}
 
-    public record QuestionResp(Long id, String stem, QuestionType qtype, QuestionAnswerPolicy answerPolicy, double points) {}
+    public record QuestionResp(String id, String stem, QuestionType qtype, QuestionAnswerPolicy answerPolicy, double points) {}
 }

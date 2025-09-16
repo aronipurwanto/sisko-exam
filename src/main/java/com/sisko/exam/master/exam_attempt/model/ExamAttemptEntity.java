@@ -25,14 +25,14 @@ import java.util.List;
 public class ExamAttemptEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id",  nullable = false)
+    @JoinColumn(name = "exam_id")
     private ExamEntity exam;
 
-    @Column(name = "student_username", nullable = false)
+    @Column(name = "student_username")
     private String studentUsername; // from Security principal
 
     @Builder.Default

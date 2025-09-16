@@ -12,13 +12,13 @@ import java.time.Instant;
 @Builder
 public class ExamRes {
 
-    private Long id;
+    private String id;
     private String name;
     private String instructions;
     private int durationMinutes = 60;
     private boolean randomizeQuestions = true;
     private boolean randomizeOptions = true;
-    private ExamStatus status = ExamStatus.DRAFT;
+    private ExamStatus status;
     private Instant startAt;
     private Instant endAt;
 }

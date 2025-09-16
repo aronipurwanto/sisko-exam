@@ -24,11 +24,11 @@ public class GradingService {
         QuestionEntity q = aa.getQuestion();
         if (q.getQtype() != QuestionType.MCO) return false;
 // Build sets
-        Set<Long> correct = new HashSet<>();
+        Set<String> correct = new HashSet<>();
         for (QuestionOptionEntity opt : q.getQuestionOptions()) {
             if (opt.isCorrect()) correct.add(opt.getId());
         }
-        Set<Long> selected = new HashSet<>();
+        Set<String> selected = new HashSet<>();
         for (AttemptAnswerOptionEntity sel : aa.getAttemptAnswerOptions()) {
             selected.add(sel.getAttemptAnswer().getId());
         }

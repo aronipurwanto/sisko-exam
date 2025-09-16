@@ -25,15 +25,15 @@ import java.util.List;
 public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attempt_id", nullable = false)
+    @JoinColumn(name = "attempt_id")
     private ExamAttemptEntity examAttempt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id")
     private QuestionEntity question;
 
     @Column(name = "answer_text", columnDefinition = "MEDIUMTEXT")
