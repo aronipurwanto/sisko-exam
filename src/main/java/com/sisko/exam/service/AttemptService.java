@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
-@Service
+@Service("attemptServiceEx")
 @RequiredArgsConstructor
 public class AttemptService {
     private final ExamAttemptRepository attemptRepo;
@@ -40,7 +40,7 @@ public class AttemptService {
 
 
     @Transactional
-    public AttemptAnswerEntity answerEssay(Long attemptId, Long questionId, String text) {
+    public AttemptAnswerEntity answerEssay(String attemptId, String questionId, String text) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
@@ -49,7 +49,7 @@ public class AttemptService {
     }
 
     @Transactional
-    public AttemptAnswerEntity answerSingleMcq(Long attemptId, Long questionId, Long optionId) {
+    public AttemptAnswerEntity answerSingleMcq(String attemptId, String questionId, String optionId) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         QuestionOptionEntity opt = optionRepo.findById(optionId).orElseThrow();
@@ -59,12 +59,12 @@ public class AttemptService {
     }
 
     @Transactional
-    public AttemptAnswerEntity answerMulti(Long attemptId, Long questionId, java.util.List<Long> optionIds) {
+    public AttemptAnswerEntity answerMulti(String attemptId, String questionId, java.util.List<String> optionIds) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         AttemptAnswerEntity aa = answerRepo.save(AttemptAnswerEntity.builder()
                 .examAttempt(att).question(q).build());
-        for (Long oid : optionIds) {
+        for (String oid : optionIds) {
             QuestionOptionEntity opt = optionRepo.findById(oid).orElseThrow();
             AttemptAnswerOptionEntity sel = AttemptAnswerOptionEntity.builder()
                     .attemptAnswer(aa).questionOption(opt).build();
@@ -75,19 +75,19 @@ public class AttemptService {
     }
 
     @Transactional
-    public ExamAttemptEntity submit(Long attemptId) {
+    public ExamAttemptEntity submit(String attemptId) {
         ExamAttemptEntity att = attemptRepo.findById(attemptId).orElseThrow();
         double total = 0.0;
         for (AttemptAnswerEntity aa : att.getAttemptAnswers()) {
             QuestionEntity q = aa.getQuestion();
             boolean correct = false;
-            switch (q.getAnswerPolicy()) {
+            switch (q.getQuestionAnswerPolicy()) {
                 case SINGLE -> correct = gradingService.isSingleCorrect(aa);
                 case MULTI_ALL -> correct = gradingService.isMultiAllCorrect(aa);
                 case MULTI_PARTIAL -> {
 // simple partial example: ratio of correct picks / total correct if no wrong selected
-                    java.util.Set<Long> correctIds = q.getQuestionOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
-                    java.util.Set<Long> selIds = aa.getAttemptAnswerOptions().stream().map(a -> a.getQuestionOption().getId()).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<String> correctIds = q.getQuestionOptions().stream().filter(QuestionOptionEntity::isCorrect).map(QuestionOptionEntity::getId).collect(java.util.stream.Collectors.toSet());
+                    java.util.Set<String> selIds = aa.getAttemptAnswerOptions().stream().map(a -> a.getQuestionOption().getId()).collect(java.util.stream.Collectors.toSet());
                     if (!selIds.isEmpty() && selIds.stream().allMatch(correctIds::contains)) {
                         aa.setScore(q.getPointsDefault() * ((double) selIds.size() / (double) correctIds.size()));
                     } else {

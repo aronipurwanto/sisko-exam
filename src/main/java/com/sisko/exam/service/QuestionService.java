@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("questionServiceEx")
 @RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepo;

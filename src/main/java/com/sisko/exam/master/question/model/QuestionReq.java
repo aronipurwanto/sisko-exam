@@ -17,7 +17,7 @@ public class QuestionReq {
 
     @NotNull(message = "Answer policy is required")
     @Builder.Default
-    private QuestionAnswerPolicy answerPolicy = QuestionAnswerPolicy.SINGLE;
+    private QuestionAnswerPolicy questionAnswerPolicy = QuestionAnswerPolicy.SINGLE;
 
     @NotBlank(message = "Question stem is required")
     @Size(min = 10, max = 5000, message = "Question stem must be between 10 and 5000 characters")

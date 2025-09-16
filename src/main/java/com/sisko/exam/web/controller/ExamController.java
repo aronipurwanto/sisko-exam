@@ -14,12 +14,12 @@ import java.time.Instant;
 
 
 record CreateExamReq(@NotBlank String name, String instructions, @Positive int durationMinutes) {}
-record AddExamQuestionReq(@NotNull Long questionId, @Positive double points, @Positive int orderIndex) {}
+record AddExamQuestionReq(@NotNull String questionId, @Positive double points, @Positive int orderIndex) {}
 record PublishExamReq(@NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
                       @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end) {}
 
 
-@RestController
+@RestController("examControllerEx")
 @RequestMapping("/api/exams")
 @RequiredArgsConstructor
 public class ExamController {
@@ -33,13 +33,13 @@ public class ExamController {
 
 
     @PostMapping("/{examId}/questions")
-    public ResponseEntity<ExamQuestionEntity> addQuestion(@PathVariable Long examId, @RequestBody AddExamQuestionReq req) {
+    public ResponseEntity<ExamQuestionEntity> addQuestion(@PathVariable String examId, @RequestBody AddExamQuestionReq req) {
         return ResponseEntity.ok(examService.addQuestion(examId, req.questionId(), req.points(), req.orderIndex()));
     }
 
 
     @PostMapping("/{examId}/publish")
-    public ResponseEntity<ExamEntity> publish(@PathVariable Long examId, @RequestBody PublishExamReq req) {
+    public ResponseEntity<ExamEntity> publish(@PathVariable String examId, @RequestBody PublishExamReq req) {
         return ResponseEntity.ok(examService.publish(examId, req.start(), req.end()));
     }
 }

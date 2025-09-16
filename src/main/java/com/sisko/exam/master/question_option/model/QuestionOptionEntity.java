@@ -23,8 +23,8 @@ import java.util.List;
 public class QuestionOptionEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)

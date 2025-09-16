@@ -13,11 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.Instant;
 
-
-@Service
+@Service("examServiceEx")
 @RequiredArgsConstructor
 public class ExamService {
     private final ExamRepository examRepo;
@@ -34,7 +32,7 @@ public class ExamService {
 
 
     @Transactional
-    public ExamQuestionEntity addQuestion(Long examId, Long questionId, double points, int orderIndex) {
+    public ExamQuestionEntity addQuestion(String  examId, String questionId, double points, int orderIndex) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
         QuestionEntity q = questionRepo.findById(questionId).orElseThrow();
         ExamQuestionEntity eq = ExamQuestionEntity.builder().exam(e).question(q).points(points).orderIndex(orderIndex).build();
@@ -43,7 +41,7 @@ public class ExamService {
 
 
     @Transactional
-    public ExamEntity publish(Long examId, Instant start, Instant end) {
+    public ExamEntity publish(String  examId, Instant start, Instant end) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
         e.setStatus(ExamStatus.PUBLISHED);
         e.setStartAt(start);
@@ -53,7 +51,7 @@ public class ExamService {
 
 
     @Transactional
-    public ExamAssignmentEntity assign(Long examId, String audienceCode, Instant start, Instant end, int maxAttempts, String accessCode) {
+    public ExamAssignmentEntity assign(String examId, String audienceCode, Instant start, Instant end, int maxAttempts, String accessCode) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
         ExamAssignmentEntity a = ExamAssignmentEntity.builder().exam(e).audienceCode(audienceCode).startAt(start).endAt(end).maxAttempts(maxAttempts).accessCode(accessCode).build();
         return assignRepo.save(a);

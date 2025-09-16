@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@RestController("attemptControllerEx")
 @RequestMapping("/api/attempts")
 @RequiredArgsConstructor
 @Validated
@@ -36,7 +36,7 @@ public class AttemptController {
 
 
     @PostMapping("/{attemptId}/essay")
-    public ResponseEntity<Long> answerEssay(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerEssayReq req) {
+    public ResponseEntity<String> answerEssay(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerEssayReq req) {
         AttemptAnswerEntity aa = attemptService.answerEssay(attemptId, req.questionId(), req.text());
         log.info("Essay answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
@@ -44,7 +44,7 @@ public class AttemptController {
 
 
     @PostMapping("/{attemptId}/single")
-    public ResponseEntity<Long> answerSingle(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerSingleReq req) {
+    public ResponseEntity<String> answerSingle(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerSingleReq req) {
         AttemptAnswerEntity aa = attemptService.answerSingleMcq(attemptId, req.questionId(), req.optionId());
         log.info("Single MCQ answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
@@ -52,7 +52,7 @@ public class AttemptController {
 
 
     @PostMapping("/{attemptId}/multi")
-    public ResponseEntity<Long> answerMulti(@PathVariable Long attemptId, @RequestBody @Valid AttemptDTOs.AnswerMultiReq req) {
+    public ResponseEntity<String> answerMulti(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerMultiReq req) {
         AttemptAnswerEntity aa = attemptService.answerMulti(attemptId, req.questionId(), req.optionIds());
         log.info("Multi MCQ answered aaId={}", aa.getId());
         return ResponseEntity.ok(aa.getId());
@@ -60,7 +60,7 @@ public class AttemptController {
 
 
     @PostMapping("/{attemptId}/submit")
-    public ResponseEntity<AttemptDTOs.SubmitResp> submit(@PathVariable Long attemptId) {
+    public ResponseEntity<AttemptDTOs.SubmitResp> submit(@PathVariable String attemptId) {
         ExamAttemptEntity att = attemptService.submit(attemptId);
         log.info("Attempt submitted id={}, score={}", att.getId(), att.getScoreTotal());
         return ResponseEntity.ok(new AttemptDTOs.SubmitResp(att.getId(), att.getScoreTotal(), att.getStatus().name()));

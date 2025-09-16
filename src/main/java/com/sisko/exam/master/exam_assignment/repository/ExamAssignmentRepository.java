@@ -4,4 +4,4 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ExamAssignmentRepository extends JpaRepository<ExamAssignmentEntity, Long> {}
+public interface ExamAssignmentRepository extends JpaRepository<ExamAssignmentEntity, String> {}

@@ -20,8 +20,8 @@ import java.time.Instant;
 public class ExamAssignmentEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exam_id", nullable = false)

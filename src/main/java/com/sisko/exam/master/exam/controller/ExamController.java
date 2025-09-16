@@ -1,0 +1,50 @@
+package com.sisko.exam.master.exam.controller;
+
+import com.sisko.exam.base.BaseController;
+import com.sisko.exam.base.Response;
+import com.sisko.exam.master.exam.model.ExamReq;
+import com.sisko.exam.master.exam.model.ExamRes;
+import com.sisko.exam.master.exam.service.ExamService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/v1/api/exam")
+public class ExamController extends BaseController<ExamRes> {
+    private final ExamService examService;
+
+    @GetMapping
+    public ResponseEntity<Response> get() {
+        List<ExamRes> result = examService.get();
+        return getResponse(result);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> get(@PathVariable String id) {
+        Optional<ExamRes> result = examService.getById(id);
+        return getResponse(result);
+    }
+
+    @PostMapping
+    public ResponseEntity<Response> post(@RequestBody ExamReq request) {
+        Optional<ExamRes> result = examService.save(request);
+        return getResponse(result);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Response> patch(@RequestBody ExamReq request, @PathVariable String id) {
+        Optional<ExamRes> result = examService.update(request, id);
+        return getResponse(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response> delete(@PathVariable String id) {
+        Optional<ExamRes> result = examService.delete(id);
+        return getResponse(result);
+    }
+}

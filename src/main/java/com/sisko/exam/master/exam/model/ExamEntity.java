@@ -25,8 +25,8 @@ import java.util.List;
 public class ExamEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @Column(nullable = false)
     private String name;

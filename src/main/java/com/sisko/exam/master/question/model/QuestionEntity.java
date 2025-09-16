@@ -24,24 +24,22 @@ import java.util.List;
 public class QuestionEntity extends BaseAuditableSoftDelete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column
+    private String id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private QuestionType qtype;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "answer_policy", nullable = false, length = 12)
-    private QuestionAnswerPolicy answerPolicy = QuestionAnswerPolicy.SINGLE;
+    private QuestionAnswerPolicy questionAnswerPolicy;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String stem;
 
-    @Builder.Default
     @Column(name = "points_default", nullable = false)
-    private double pointsDefault = 1.0;
+    private double pointsDefault;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
