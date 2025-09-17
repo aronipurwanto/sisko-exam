@@ -1,15 +1,15 @@
 package com.sisko.exam.master.exam.mapper;
 
-import com.sisko.exam.exception.NotFoundException;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.model.ExamReq;
 import com.sisko.exam.master.exam.model.ExamRes;
-import com.sisko.exam.master.exam.repository.ExamRepository;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
+import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ExamMapper {
-    private final ExamRepository examRepository;
+    private final ExamAssignmentRepository examAssignmentRepository;
 
     public ExamRes toResponse(ExamEntity entity) {
         return ExamRes.builder()
@@ -30,6 +30,7 @@ public class ExamMapper {
                 .status(entity.getStatus())
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())
+                .examAssignments(this.toExamAssList(entity.getExamAssignments()))
                 .build();
     }
 
@@ -67,8 +68,20 @@ public class ExamMapper {
                 .build();
     }
 
-    public ExamEntity getEntityById(String id) {
-        return this.examRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format("exam with id: %s not found", id)));
+    private List<ExamAssignmentRes> toExamAssList(List<ExamAssignmentEntity> entities) {
+        if (entities == null || entities.isEmpty()) return Collections.emptyList();
+
+        return entities.stream().map(entity -> ExamAssignmentRes.builder()
+                .id(entity.getId())
+                .examId(entity.getExam().getId())
+                .examName(entity.getExam().getName())
+                .groupLabel(entity.getGroupLabel())
+                .startAt(entity.getStartAt())
+                .endAt(entity.getEndAt())
+                .maxAttempts(entity.getMaxAttempts())
+                .accessCode(entity.getAccessCode())
+                .audienceCode(entity.getAudienceCode())
+                .build()
+        ).collect(Collectors.toList());
     }
 }

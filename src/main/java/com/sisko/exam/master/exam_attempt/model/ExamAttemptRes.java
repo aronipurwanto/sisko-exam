@@ -12,9 +12,10 @@ import java.time.Instant;
 @Builder
 public class ExamAttemptRes {
 
-    private Long id;
-    private Long examId;
-    private Long assignmentId;
+    private String id;
+    private String examId;
+    private String examName;
+    private String assignmentId;
     private String studentUsername;
     private int attemptNo;
     private Instant startedAt;

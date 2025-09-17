@@ -11,8 +11,8 @@ import java.time.Instant;
 @Builder
 public class ExamAssignmentRes {
 
-    private Long id;
-    private Long examId;
+    private String id;
+    private String examId;
     private String examName;
     private String groupLabel;
     private Instant startAt;

@@ -13,13 +13,11 @@ import java.time.Instant;
 @Builder
 public class ExamAttemptReq {
 
-    @NotNull(message = "Exam ID cannot be null")
-    @Positive(message = "Exam ID must be positive")
-    private Long examId;
+    @NotBlank(message = "Exam ID cannot be blank")
+    private String examId;
 
-    @NotNull(message = "Assignment ID cannot be null")
-    @Positive(message = "Assignment ID must be positive")
-    private Long assignmentId;
+    @NotBlank(message = "Assignment ID cannot be blank")
+    private String assignmentId;
 
     @NotBlank(message = "Student username cannot be blank")
     @Size(min = 3, max = 50, message = "Student username must be between 3 and 50 characters")

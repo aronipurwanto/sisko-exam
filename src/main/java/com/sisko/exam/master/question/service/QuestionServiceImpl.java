@@ -1,5 +1,6 @@
 package com.sisko.exam.master.question.service;
 
+import com.sisko.exam.exception.NotFoundException;
 import com.sisko.exam.master.question.mapper.QuestionMapper;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.model.QuestionReq;
@@ -19,12 +20,12 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionRes> get() {
-        return this.questionMapper.toResponseList(this.questionRepository.findAll());
+        return this.questionMapper.toResponseList(this.questionRepository.findAllByDeletedAtIsNull());
     }
 
     @Override
     public Optional<QuestionRes> getById(String id) {
-        QuestionEntity result = this.questionMapper.getEntityById(id);
+        QuestionEntity result = this.getEntityById(id);
 
         return Optional.of(this.questionMapper.toResponse(result));
     }
@@ -43,7 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Optional<QuestionRes> update(QuestionReq request, String id) {
-        QuestionEntity entity = this.questionMapper.getEntityById(id);
+        QuestionEntity entity = this.getEntityById(id);
         QuestionEntity result = this.questionMapper.toEntity(request, entity);
 
         try {
@@ -56,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Optional<QuestionRes> delete(String id) {
-        QuestionEntity result = this.questionMapper.getEntityById(id);
+        QuestionEntity result = this.getEntityById(id);
 
         try {
             this.questionRepository.delete(result);
@@ -64,5 +65,10 @@ public class QuestionServiceImpl implements QuestionService {
         } catch (Exception ex) {
             throw new RuntimeException("delete question failed", ex);
         }
+    }
+
+    private QuestionEntity getEntityById(String id) {
+        return questionRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("question with id: %s not found", id)));
     }
 }

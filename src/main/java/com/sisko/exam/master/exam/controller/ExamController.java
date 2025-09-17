@@ -5,6 +5,8 @@ import com.sisko.exam.base.Response;
 import com.sisko.exam.master.exam.model.ExamReq;
 import com.sisko.exam.master.exam.model.ExamRes;
 import com.sisko.exam.master.exam.service.ExamService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,25 +27,25 @@ public class ExamController extends BaseController<ExamRes> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> get(@PathVariable String id) {
+    public ResponseEntity<Response> get(@PathVariable @NotBlank String id) {
         Optional<ExamRes> result = examService.getById(id);
         return getResponse(result);
     }
 
     @PostMapping
-    public ResponseEntity<Response> post(@RequestBody ExamReq request) {
+    public ResponseEntity<Response> post(@RequestBody @Valid ExamReq request) {
         Optional<ExamRes> result = examService.save(request);
         return getResponse(result);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Response> patch(@RequestBody ExamReq request, @PathVariable String id) {
+    public ResponseEntity<Response> patch(@RequestBody @Valid ExamReq request, @PathVariable @NotBlank String id) {
         Optional<ExamRes> result = examService.update(request, id);
         return getResponse(result);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> delete(@PathVariable String id) {
+    public ResponseEntity<Response> delete(@PathVariable @NotBlank String id) {
         Optional<ExamRes> result = examService.delete(id);
         return getResponse(result);
     }
