@@ -9,9 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class QuestionOptionReq {
-    @NotNull(message = "Question ID is required")
-    @Positive(message = "Question ID must be a positive number")
-    private Long questionId;
+    @NotBlank(message = "Question ID is required")
+    private String questionId;
 
     @NotBlank(message = "Label is required")
     @Size(min = 1, max = 5, message = "Label must be between 1 and 5 characters")

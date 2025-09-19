@@ -10,13 +10,11 @@ import lombok.*;
 @Builder
 public class ExamQuestionReq {
 
-    @NotNull(message = "Exam ID is required")
-    @Positive(message = "Exam ID must be a positive number")
-    private Long examId;
+    @NotBlank(message = "Exam ID is required")
+    private String examId;
 
-    @NotNull(message = "Question ID is required")
-    @Positive(message = "Question ID must be a positive number")
-    private Long questionId;
+    @NotBlank(message = "Question ID is required")
+    private String questionId;
 
     @NotNull(message = "Points is required")
     @DecimalMin(value = "0.1", message = "Points must be at least 0.1")

@@ -11,12 +11,13 @@ import java.time.Instant;
 @Builder
 public class AttemptAnswerRes {
 
-    private Long examAttemptId;
+    private String examAttemptId;
     private String examAttemptStudentUsername;
-    private Long questionId;
+    private String questionId;
     private String questionStem;
     private String answerText;
-    private Long selectedOptionId;
+    private String questionOptionId;
+
     private Double score;
     private String gradedBy;
     private Instant gradedAt;
