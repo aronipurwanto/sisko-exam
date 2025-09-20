@@ -54,8 +54,4 @@ public class QuestionMapper {
                 .pointsDefault(request.getPointsDefault())
                 .build();
     }
-
-    public QuestionEntity getEntityById(String id) {
-        return questionRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("question with id: %s not found", id)));
-    }
 }

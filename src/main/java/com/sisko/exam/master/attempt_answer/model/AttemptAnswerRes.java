@@ -1,8 +1,10 @@
 package com.sisko.exam.master.attempt_answer.model;
 
+import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionRes;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,15 +12,16 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 public class AttemptAnswerRes {
-
-    private Long examAttemptId;
+    private String examAttemptId;
     private String examAttemptStudentUsername;
-    private Long questionId;
+    private String questionId;
     private String questionStem;
     private String answerText;
-    private Long selectedOptionId;
+    private String questionOptionId;
+    private String questionOptionContent;
     private Double score;
     private String gradedBy;
     private Instant gradedAt;
     private String feedback;
+    private List<AttemptAnswerOptionRes> attemptAnswerOptions;
 }

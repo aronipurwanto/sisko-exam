@@ -10,11 +10,9 @@ import lombok.*;
 @Builder
 public class AttemptAnswerOptionReq {
 
-    @NotNull(message = "Attempt answer ID is required")
-    @Positive(message = "Attempt answer ID must be a positive number")
-    private Long attemptAnswerId;
+    @NotEmpty(message = "Attempt answer ID is required")
+    private String attemptAnswerId;
 
-    @NotNull(message = "Option ID is required")
-    @Positive(message = "Option ID must be a positive number")
-    private Long questionOptionId;
+    @NotEmpty(message = "Option ID is required")
+    private String questionOptionId;
 }

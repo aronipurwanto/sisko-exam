@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ExamQuestionRes {
-    private Long examId;
+    private String examId;
     private String examName;
-    private Long questionId;
+    private String questionId;
     private String questionStem;
     private Double points;
     private Integer orderIndex;

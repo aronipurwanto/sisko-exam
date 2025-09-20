@@ -13,8 +13,7 @@ import java.time.Instant;
 public class ExamAssignmentReq {
 
     @NotNull(message = "Exam ID is required")
-    @Positive(message = "Exam ID must be a positive number")
-    private Long examId;
+    private String examId;
 
     @NotBlank(message = "Group label is required")
     @Size(min = 1, max = 100, message = "Group label must be between 1 and 100 characters")

@@ -8,10 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class QuestionOptionRes {
-    private Long questionId;
+    private String id;
+    private String questionId;
     private String questionStem;
     private String label;
     private String content;
-    private Boolean correct = false;
+    private boolean correct = false;
     private Integer orderIndex;
 }

@@ -1,9 +1,11 @@
 package com.sisko.exam.master.exam.model;
 
 import com.sisko.exam.enums.ExamStatus;
+import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +23,5 @@ public class ExamRes {
     private ExamStatus status;
     private Instant startAt;
     private Instant endAt;
+    private List<ExamAssignmentRes> examAssignments;
 }

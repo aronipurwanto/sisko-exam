@@ -8,9 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AttemptAnswerOptionRes {
-
-    private Long attemptAnswerId;
+    private String attemptAnswerId;
     private Double attemptAnswerScore;
-    private Long questionOptionId;
-    private String questionStem;
+    private String questionOptionId;
+    private String questionContent;
 }

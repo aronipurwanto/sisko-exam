@@ -20,13 +20,12 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<ExamRes> get() {
-        return this.examMapper.toResponseList(this.examRepository.findAll());
+        return this.examMapper.toResponseList(this.examRepository.findAllByDeletedAtIsNull());
     }
 
     @Override
     public Optional<ExamRes> getById(String id) {
-        ExamEntity result = this.examMapper.getEntityById(id);
-
+        ExamEntity result = this.getEntityById(id);
         return Optional.of(this.examMapper.toResponse(result));
     }
 
@@ -44,7 +43,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Optional<ExamRes> update(ExamReq request, String id) {
-        ExamEntity entity = this.examMapper.getEntityById(id);
+        ExamEntity entity = this.getEntityById(id);
         ExamEntity result = this.examMapper.toEntity(entity, request);
 
         try {
@@ -57,7 +56,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Optional<ExamRes> delete(String id) {
-        ExamEntity result = this.examMapper.getEntityById(id);
+        ExamEntity result = this.getEntityById(id);
 
         try {
             this.examRepository.delete(result);
@@ -65,5 +64,10 @@ public class ExamServiceImpl implements ExamService {
         } catch (Exception ex) {
             throw new RuntimeException("delete failed", ex);
         }
+    }
+
+    private ExamEntity getEntityById(String id) {
+        return this.examRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("exam with id: %s not found", id)));
     }
 }

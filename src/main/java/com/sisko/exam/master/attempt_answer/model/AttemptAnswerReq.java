@@ -11,19 +11,17 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 public class AttemptAnswerReq {
-    @NotNull(message = "Attempt ID is required")
-    @Positive(message = "Attempt ID must be a positive number")
-    private Long examAttemptId;
+    @NotBlank(message = "Attempt ID is required")
+    private String examAttemptId;
 
-    @NotNull(message = "Question ID is required")
-    @Positive(message = "Question ID must be a positive number")
-    private Long questionId;
+    @NotBlank(message = "Question ID is required")
+    private String questionId;
 
     @Size(max = 16777215, message = "Answer text must not exceed MEDIUMTEXT limit")
     private String answerText; // for ESSAY questions
 
-    @Positive(message = "Selected option ID must be a positive number")
-    private Long selectedOptionId; // for SINGLE MCQ
+    @NotBlank(message = "Question Option ID is required")
+    private String questionOptionId; // for SINGLE MCQ
 
     @DecimalMin(value = "0.0", message = "Score must be non-negative")
     @DecimalMax(value = "100.0", message = "Score must not exceed 100.0")
