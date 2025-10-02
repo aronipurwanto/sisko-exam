@@ -36,10 +36,10 @@ public class QuestionOptionEntity extends BaseAuditableSoftDelete {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(name = "is_correct", nullable = false)
+    @Column(name = "is_correct")
     private boolean correct;
 
-    @Column(name = "order_index", nullable = false)
+    @Column(name = "order_index")
     private int orderIndex;
 
     @OneToMany(mappedBy = "questionOption", cascade = CascadeType.ALL, orphanRemoval = true)

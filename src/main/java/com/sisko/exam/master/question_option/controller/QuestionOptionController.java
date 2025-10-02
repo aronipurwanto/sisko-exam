@@ -40,6 +40,12 @@ public class QuestionOptionController extends BaseController<QuestionOptionRes> 
         return getResponse(result);
     }
 
+    @PostMapping("/all")
+    public ResponseEntity<Response> post(@RequestBody @Valid List<QuestionOptionReq> requests) {
+        List<QuestionOptionRes> result = questionOptionService.saveAll(requests);
+        return getResponse(result);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Response> patch(@RequestBody @Valid QuestionOptionReq request, @PathVariable @NotBlank String id) {
         Optional<QuestionOptionRes> result = questionOptionService.update(request, id);

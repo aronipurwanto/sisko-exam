@@ -21,12 +21,11 @@ public class QuestionOptionReq {
     @Size(min = 1, max = 5000, message = "Content must be between 1 and 5000 characters")
     private String content;
 
-    @NotNull(message = "Correct flag is required")
     @Builder.Default
     private Boolean correct = false;
 
-    @NotNull(message = "Order index is required")
     @Min(value = 0, message = "Order index must be non-negative")
     @Max(value = 99, message = "Order index must not exceed 99")
-    private Integer orderIndex;
+    @Builder.Default
+    private Integer orderIndex = 10;
 }
