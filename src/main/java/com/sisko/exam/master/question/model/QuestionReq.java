@@ -15,7 +15,6 @@ public class QuestionReq {
     @NotNull(message = "Question type is required")
     private QuestionType qtype;
 
-    @NotNull(message = "Answer policy is required")
     @Builder.Default
     private QuestionAnswerPolicy questionAnswerPolicy = QuestionAnswerPolicy.SINGLE;
 

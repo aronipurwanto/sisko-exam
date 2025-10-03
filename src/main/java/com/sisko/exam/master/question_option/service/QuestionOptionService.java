@@ -10,6 +10,7 @@ public interface QuestionOptionService {
     List<QuestionOptionRes> get();
     Optional<QuestionOptionRes> getById(String id);
     Optional<QuestionOptionRes> save(QuestionOptionReq request);
+    List<QuestionOptionRes> saveAll(List<QuestionOptionReq> requests);
     Optional<QuestionOptionRes> update(QuestionOptionReq request, String id);
     Optional<QuestionOptionRes> delete(String id);
 }

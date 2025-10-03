@@ -32,7 +32,7 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     private QuestionType qtype;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "answer_policy", nullable = false, length = 12)
+    @Column(name = "answer_policy", length = 12)
     private QuestionAnswerPolicy questionAnswerPolicy;
 
     @Column(columnDefinition = "TEXT", nullable = false)
