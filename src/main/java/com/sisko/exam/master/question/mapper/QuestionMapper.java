@@ -1,11 +1,11 @@
 package com.sisko.exam.master.question.mapper;
 
-import com.sisko.exam.exception.DuplicateException;
-import com.sisko.exam.exception.NotFoundException;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.model.QuestionReq;
 import com.sisko.exam.master.question.model.QuestionRes;
 import com.sisko.exam.master.question.repository.QuestionRepository;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question_option.model.QuestionOptionRes;
 import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,6 +26,7 @@ public class QuestionMapper {
                 .questionAnswerPolicy(entity.getQuestionAnswerPolicy())
                 .stem(entity.getStem())
                 .pointsDefault(entity.getPointsDefault())
+                .questionOptions(toQuestionOptionList(entity.getQuestionOptions()))
                 .build();
     }
 
@@ -53,5 +54,20 @@ public class QuestionMapper {
                 .stem(request.getStem())
                 .pointsDefault(request.getPointsDefault())
                 .build();
+    }
+
+    private List<QuestionOptionRes> toQuestionOptionList(List<QuestionOptionEntity> entities) {
+        if (entities == null || entities.isEmpty()) return Collections.emptyList();
+
+        return entities.stream().map(option -> QuestionOptionRes.builder()
+                .id(option.getId())
+                .questionId(option.getQuestion().getId())
+                .questionStem(option.getQuestion().getStem())
+                .label(option.getLabel())
+                .content(option.getContent())
+                .correct(option.isCorrect())
+                .orderIndex(option.getOrderIndex())
+                .build()
+        ).collect(Collectors.toList());
     }
 }
