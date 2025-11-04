@@ -8,9 +8,11 @@ import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.cglib.core.Local;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +54,10 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     private ExamStatus status = ExamStatus.DRAFT;
 
     @Column(name = "start_at")
-    private Instant startAt;
+    private LocalDateTime startAt;
 
     @Column(name = "end_at")
-    private Instant endAt;
+    private LocalDateTime endAt;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")

@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +42,10 @@ public class ExamAttemptEntity extends BaseAuditableSoftDelete {
 
     @Builder.Default
     @Column(name = "started_at", nullable = false)
-    private Instant startedAt = Instant.now();
+    private LocalDateTime startedAt = LocalDateTime.now();
 
     @Column(name = "submitted_at")
-    private Instant submittedAt;
+    private LocalDateTime submittedAt;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,16 +18,15 @@ public class ExamAssignmentReq {
 
     @NotBlank(message = "Group label is required")
     @Size(min = 1, max = 100, message = "Group label must be between 1 and 100 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Group label can only contain letters, numbers, underscores, and hyphens")
     private String groupLabel;
 
     @NotNull(message = "Start time is required")
     @Future(message = "Start time must be in the future")
-    private Instant startAt;
+    private LocalDateTime startAt;
 
     @NotNull(message = "End time is required")
     @Future(message = "End time must be in the future")
-    private Instant endAt;
+    private LocalDateTime endAt;
 
     @NotNull(message = "Max attempts is required")
     @Min(value = 1, message = "Max attempts must be at least 1")

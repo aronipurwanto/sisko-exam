@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 
 record AssignReq(@NotNull String  examId,
                  @NotBlank String audienceCode,
-                 @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                 @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end,
+                 @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+                 @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                  @Positive int maxAttempts,
                  String accessCode) {}
 

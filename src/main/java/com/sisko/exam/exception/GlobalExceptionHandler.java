@@ -3,29 +3,36 @@ package com.sisko.exam.exception;
 import com.sisko.exam.base.ResponseError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseError> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        List<String> listErrors = ex.getBindingResult()
+        Map<String, List<String >> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> String.format("%s: %s", error.getField(), error.getDefaultMessage()))
-                .toList();
+                .collect(Collectors.groupingBy(
+                        FieldError::getField,
+                        Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList())
+                ));
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ResponseError(
                         HttpStatus.BAD_REQUEST.value(),
                         HttpStatus.BAD_REQUEST.name(),
-                        listErrors
+                        errors
                 ));
     }
 

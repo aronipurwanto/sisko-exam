@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,10 +31,10 @@ public class ExamAttemptReq {
 
     @NotNull(message = "Started at timestamp cannot be null")
     @PastOrPresent(message = "Started at must be in the past or present")
-    private Instant startedAt;
+    private LocalDateTime startedAt;
 
     @PastOrPresent(message = "Submitted at must be in the past or present")
-    private Instant submittedAt;
+    private LocalDateTime submittedAt;
 
     @NotNull(message = "Status cannot be null")
     private ExamAttemptStatus status;

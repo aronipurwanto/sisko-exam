@@ -3,6 +3,8 @@ package com.sisko.exam.master.exam.model;
 import com.sisko.exam.enums.ExamStatus;
 import jakarta.validation.constraints.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+
 import lombok.*;
 
 @Getter
@@ -32,8 +34,8 @@ public class ExamReq {
     private ExamStatus status;
 
     @Future(message = "Start time must be in the future")
-    private Instant startAt;
+    private LocalDateTime startAt;
 
     @Future(message = "End time must be in the future")
-    private Instant endAt;
+    private LocalDateTime endAt;
 }
