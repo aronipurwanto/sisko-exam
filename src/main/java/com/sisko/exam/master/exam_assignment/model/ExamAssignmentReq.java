@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ExamAssignmentReq {
 
-    @NotNull(message = "Exam ID is required")
+    @NotBlank(message = "Exam Name is required")
     private String examId;
 
     @NotBlank(message = "Group label is required")

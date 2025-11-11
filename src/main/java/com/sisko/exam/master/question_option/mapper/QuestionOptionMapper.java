@@ -40,10 +40,6 @@ public class QuestionOptionMapper {
         return entities.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
-    public List<QuestionOptionEntity> toEntityList(List<QuestionOptionReq> requests) {
-        return requests.stream().map(this::toEntity).collect(Collectors.toList());
-    }
-
     public QuestionOptionEntity toEntity(QuestionOptionReq request) {
         return QuestionOptionEntity.builder()
                 .id(CommonUtil.getUUID())
