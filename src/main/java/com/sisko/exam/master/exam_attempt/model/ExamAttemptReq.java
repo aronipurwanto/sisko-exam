@@ -14,29 +14,28 @@ import java.time.LocalDateTime;
 @Builder
 public class ExamAttemptReq {
 
-    @NotBlank(message = "Exam ID cannot be blank")
+    @NotBlank(message = "exam name cannot be blank")
     private String examId;
-
-    @NotBlank(message = "Assignment ID cannot be blank")
-    private String assignmentId;
 
     @NotBlank(message = "Student username cannot be blank")
     @Size(min = 3, max = 50, message = "Student username must be between 3 and 50 characters")
     @Pattern(regexp = "^[a-zA-Z0-9_\\-\\.]+$", message = "Student username contains invalid characters")
     private String studentUsername;
 
-    @Min(value = 1, message = "Attempt number must be at least 1")
-    @Max(value = 10, message = "Attempt number cannot exceed 10")
+    @NotNull(message = "no attempt is required")
+    @Min(value = 1, message = "attempt number must be at least 1")
+    @Max(value = 10, message = "attempt number cannot exceed 10")
     private int attemptNo;
 
-    @NotNull(message = "Started at timestamp cannot be null")
-    @PastOrPresent(message = "Started at must be in the past or present")
+    @NotNull(message = "started at is required")
+    @PastOrPresent(message = "started at must be in the past or present")
     private LocalDateTime startedAt;
 
-    @PastOrPresent(message = "Submitted at must be in the past or present")
+    @NotNull(message = "submitted at is required")
+    @PastOrPresent(message = "submitted at must be in the past or present")
     private LocalDateTime submittedAt;
 
-    @NotNull(message = "Status cannot be null")
+    @NotNull(message = "status is required")
     private ExamAttemptStatus status;
 
     @DecimalMin(value = "0.0", message = "Score total cannot be less than 0.0")

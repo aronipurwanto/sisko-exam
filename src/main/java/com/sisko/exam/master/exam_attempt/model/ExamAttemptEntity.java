@@ -21,7 +21,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "exam_attempts",
-        uniqueConstraints = @UniqueConstraint(name = "uk_assign_student_attempt", columnNames = {"assignment_id","student_username","attempt_no"}))
+        uniqueConstraints = @UniqueConstraint(name = "uk_assign_student_attempt", columnNames = {"student_username","attempt_no"}))
 @SQLDelete(sql = "UPDATE exam_attempts SET deleted_at=NOW() WHERE id=?")
 public class ExamAttemptEntity extends BaseAuditableSoftDelete {
 
@@ -38,7 +38,7 @@ public class ExamAttemptEntity extends BaseAuditableSoftDelete {
 
     @Builder.Default
     @Column(name = "attempt_no", nullable = false)
-    private int attemptNo = 1;
+    private Integer attemptNo = 1;
 
     @Builder.Default
     @Column(name = "started_at", nullable = false)
