@@ -1,6 +1,10 @@
 package com.sisko.exam.master.question_option.model;
 
+import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionRes;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,4 +19,5 @@ public class QuestionOptionRes {
     private String content;
     private boolean correct = false;
     private Integer orderIndex;
+    private List<AttemptAnswerOptionRes> attemptAnswerOptions = new ArrayList<>();
 }
