@@ -27,42 +27,42 @@ public class AttemptController {
     private final AttemptService attemptService;
 
 
-    @PostMapping
-    public ResponseEntity<AttemptDTOs.StartAttemptResp> start(@RequestBody @Valid AttemptDTOs.StartAttemptReq req, Authentication auth) {
-        ExamAttemptEntity att = attemptService.startAttempt(auth.getName(), req.attemptNo());
-        log.info("Attempt started id={} by {}", att.getId(), auth.getName());
-        return ResponseEntity.ok(new AttemptDTOs.StartAttemptResp(att.getId(), att.getStatus().name()));
-    }
-
-
-    @PostMapping("/{attemptId}/essay")
-    public ResponseEntity<String> answerEssay(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerEssayReq req) {
-        AttemptAnswerEntity aa = attemptService.answerEssay(attemptId, req.questionId(), req.text());
-        log.info("Essay answered aaId={}", aa.getId());
-        return ResponseEntity.ok(aa.getId());
-    }
-
-
-    @PostMapping("/{attemptId}/single")
-    public ResponseEntity<String> answerSingle(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerSingleReq req) {
-        AttemptAnswerEntity aa = attemptService.answerSingleMcq(attemptId, req.questionId(), req.optionId());
-        log.info("Single MCQ answered aaId={}", aa.getId());
-        return ResponseEntity.ok(aa.getId());
-    }
-
-
-    @PostMapping("/{attemptId}/multi")
-    public ResponseEntity<String> answerMulti(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerMultiReq req) {
-        AttemptAnswerEntity aa = attemptService.answerMulti(attemptId, req.questionId(), req.optionIds());
-        log.info("Multi MCQ answered aaId={}", aa.getId());
-        return ResponseEntity.ok(aa.getId());
-    }
-
-
-    @PostMapping("/{attemptId}/submit")
-    public ResponseEntity<AttemptDTOs.SubmitResp> submit(@PathVariable String attemptId) {
-        ExamAttemptEntity att = attemptService.submit(attemptId);
-        log.info("Attempt submitted id={}, score={}", att.getId(), att.getScoreTotal());
-        return ResponseEntity.ok(new AttemptDTOs.SubmitResp(att.getId(), att.getScoreTotal(), att.getStatus().name()));
-    }
+//    @PostMapping
+//    public ResponseEntity<AttemptDTOs.StartAttemptResp> start(@RequestBody @Valid AttemptDTOs.StartAttemptReq req, Authentication auth) {
+//        ExamAttemptEntity att = attemptService.startAttempt(auth.getName(), req.attemptNo());
+//        log.info("Attempt started id={} by {}", att.getId(), auth.getName());
+//        return ResponseEntity.ok(new AttemptDTOs.StartAttemptResp(att.getId(), att.getStatus().name()));
+//    }
+//
+//
+//    @PostMapping("/{attemptId}/essay")
+//    public ResponseEntity<String> answerEssay(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerEssayReq req) {
+//        AttemptAnswerEntity aa = attemptService.answerEssay(attemptId, req.questionId(), req.text());
+//        log.info("Essay answered aaId={}", aa.getId());
+//        return ResponseEntity.ok(aa.getId());
+//    }
+//
+//
+//    @PostMapping("/{attemptId}/single")
+//    public ResponseEntity<String> answerSingle(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerSingleReq req) {
+//        AttemptAnswerEntity aa = attemptService.answerSingleMcq(attemptId, req.questionId(), req.optionId());
+//        log.info("Single MCQ answered aaId={}", aa.getId());
+//        return ResponseEntity.ok(aa.getId());
+//    }
+//
+//
+//    @PostMapping("/{attemptId}/multi")
+//    public ResponseEntity<String> answerMulti(@PathVariable String attemptId, @RequestBody @Valid AttemptDTOs.AnswerMultiReq req) {
+//        AttemptAnswerEntity aa = attemptService.answerMulti(attemptId, req.questionId(), req.optionIds());
+//        log.info("Multi MCQ answered aaId={}", aa.getId());
+//        return ResponseEntity.ok(aa.getId());
+//    }
+//
+//
+//    @PostMapping("/{attemptId}/submit")
+//    public ResponseEntity<AttemptDTOs.SubmitResp> submit(@PathVariable String attemptId) {
+//        ExamAttemptEntity att = attemptService.submit(attemptId);
+//        log.info("Attempt submitted id={}, score={}", att.getId(), att.getScoreTotal());
+//        return ResponseEntity.ok(new AttemptDTOs.SubmitResp(att.getId(), att.getScoreTotal(), att.getStatus().name()));
+//    }
 }

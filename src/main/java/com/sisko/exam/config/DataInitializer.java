@@ -130,7 +130,6 @@ public class DataInitializer implements CommandLineRunner {
         AttemptAnswerEntity diogoAttempt = AttemptAnswerEntity.builder()
                 .id("78d9b2009d0d49f7ac1c65b568095d40")
                 .examAttempt(diogo)
-                .question(mathQuestion01)
                 .answerText("1, 3, 5, 7, 9, 11")
                 .score(10.00)
                 .gradedBy("teacher math")

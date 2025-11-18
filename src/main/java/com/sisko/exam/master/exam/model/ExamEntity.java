@@ -8,10 +8,7 @@ import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-import org.springframework.cglib.core.Local;
 
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

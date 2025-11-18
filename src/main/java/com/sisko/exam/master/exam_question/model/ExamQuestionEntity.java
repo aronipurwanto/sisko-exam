@@ -1,11 +1,15 @@
 package com.sisko.exam.master.exam_question.model;
 
+import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -35,4 +39,7 @@ public class ExamQuestionEntity extends BaseAuditableSoftDelete {
     @Builder.Default
     @Column(nullable = false)
     private boolean required = true;
+
+    @OneToMany(mappedBy = "examQuestion",  cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttemptAnswerEntity>  attemptAnswers = new ArrayList<>();
 }
