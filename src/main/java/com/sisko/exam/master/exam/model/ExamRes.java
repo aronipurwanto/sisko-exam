@@ -5,6 +5,7 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,7 +22,7 @@ public class ExamRes {
     private boolean randomizeQuestions = true;
     private boolean randomizeOptions = true;
     private ExamStatus status;
-    private Instant startAt;
-    private Instant endAt;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
     private List<ExamAssignmentRes> examAssignments;
 }

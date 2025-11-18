@@ -43,18 +43,6 @@ public class QuestionOptionServiceImpl implements QuestionOptionService {
     }
 
     @Override
-    public List<QuestionOptionRes> saveAll(List<QuestionOptionReq> requests) {
-        List<QuestionOptionEntity> entities = this.questionOptionMapper.toEntityList(requests);
-
-        try {
-            this.questionOptionRepository.saveAll(entities);
-            return this.questionOptionMapper.toResponseList(entities);
-        } catch (Exception ex) {
-            throw new RuntimeException("saveAll question option failed", ex);
-        }
-    }
-
-    @Override
     public Optional<QuestionOptionRes> update(QuestionOptionReq request, String id) {
         QuestionOptionEntity entity = this.getEntityById(id);
         QuestionOptionEntity result = this.questionOptionMapper.toEntity(request, entity);

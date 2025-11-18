@@ -4,6 +4,7 @@ import com.sisko.exam.enums.ExamAttemptStatus;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ public class ExamAttemptRes {
     private String assignmentId;
     private String studentUsername;
     private int attemptNo;
-    private Instant startedAt;
-    private Instant submittedAt;
+    private LocalDateTime startedAt;
+    private LocalDateTime submittedAt;
     private ExamAttemptStatus status;
     private Double scoreTotal;
 }

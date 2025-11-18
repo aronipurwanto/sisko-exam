@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -31,10 +32,10 @@ public class ExamAssignmentEntity extends BaseAuditableSoftDelete {
     private String groupLabel; // placeholder for class identifier
 
     @Column(name = "start_at", nullable = false)
-    private Instant startAt;
+    private LocalDateTime startAt;
 
     @Column(name = "end_at", nullable = false)
-    private Instant endAt;
+    private LocalDateTime endAt;
 
     @Builder.Default
     @Column(name = "max_attempts", nullable = false)

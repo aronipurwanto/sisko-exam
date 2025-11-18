@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Service("examServiceEx")
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class ExamService {
 
 
     @Transactional
-    public ExamEntity publish(String  examId, Instant start, Instant end) {
+    public ExamEntity publish(String  examId, LocalDateTime start, LocalDateTime end) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
         e.setStatus(ExamStatus.PUBLISHED);
         e.setStartAt(start);
@@ -51,7 +52,7 @@ public class ExamService {
 
 
     @Transactional
-    public ExamAssignmentEntity assign(String examId, String audienceCode, Instant start, Instant end, int maxAttempts, String accessCode) {
+    public ExamAssignmentEntity assign(String examId, String audienceCode, LocalDateTime start, LocalDateTime end, int maxAttempts, String accessCode) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
         ExamAssignmentEntity a = ExamAssignmentEntity.builder().exam(e).audienceCode(audienceCode).startAt(start).endAt(end).maxAttempts(maxAttempts).accessCode(accessCode).build();
         return assignRepo.save(a);

@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 
 record CreateExamReq(@NotBlank String name, String instructions, @Positive int durationMinutes) {}
 record AddExamQuestionReq(@NotNull String questionId, @Positive double points, @Positive int orderIndex) {}
-record PublishExamReq(@NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant start,
-                      @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant end) {}
+record PublishExamReq(@NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+                      @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {}
 
 
 @RestController("examControllerEx")

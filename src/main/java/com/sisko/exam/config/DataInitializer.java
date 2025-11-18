@@ -5,6 +5,7 @@ import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.enums.Role;
 import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
+import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_attempt.repository.ExamAttemptRepository;
 import com.sisko.exam.master.question.model.QuestionEntity;
@@ -15,13 +16,13 @@ import com.sisko.exam.master.user.model.UserEntity;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.repository.ExamRepository;
 import com.sisko.exam.master.user.repository.UserRepository;
-import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -34,6 +35,7 @@ public class DataInitializer implements CommandLineRunner {
     private final QuestionRepository questionRepo;
     private final QuestionOptionRepository questionOptionRepo;
     private final ExamAttemptRepository examAttemptRepo;
+    private final ExamAssignmentRepository examAssignmentRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -73,8 +75,8 @@ public class DataInitializer implements CommandLineRunner {
                 .id("5a3b8b1289a14ff7b3a32129ba5a1b52")
                 .name("Mathematics Test")
                 .instructions("Choose the true answer")
-                .startAt(Instant.parse("2025-09-09T07:30:00Z"))
-                .endAt(Instant.parse("2025-09-09T08:30:00Z"))
+                .startAt(LocalDateTime.parse("2026-06-09T07:30:00"))
+                .endAt(LocalDateTime.parse("2026-06-09T08:30:00"))
                 .build();
 
         //exam assignments
@@ -82,8 +84,8 @@ public class DataInitializer implements CommandLineRunner {
                 .id("73d8ff83c88949e5995dceaa1a463152")
                 .exam(math)
                 .groupLabel("X IPA 1")
-                .startAt(Instant.parse("2025-09-09T07:30:00Z"))
-                .endAt(Instant.parse("2025-09-09T08:30:00Z"))
+                .startAt(LocalDateTime.parse("2026-06-09T07:30:00"))
+                .endAt(LocalDateTime.parse("2026-06-09T08:30:00"))
                 .accessCode("xxx")
                 .audienceCode("X_IPA_1")
                 .build();
@@ -120,7 +122,8 @@ public class DataInitializer implements CommandLineRunner {
                 .id("f8f08206876a4bceac98ebe5ce5b1d51")
                 .exam(math)
                 .studentUsername("Diogo Dalot")
-                .submittedAt(Instant.parse("2025-09-09T10:30:00Z"))
+                .startedAt(LocalDateTime.parse("2026-06-09T07:30:00"))
+                .submittedAt(LocalDateTime.parse("2026-06-09T08:30:00"))
                 .scoreTotal(90.50)
                 .build();
 
@@ -156,6 +159,7 @@ public class DataInitializer implements CommandLineRunner {
             this.examRepo.saveAll(examEntities);
             this.questionRepo.saveAll(questionEntities);
             this.questionOptionRepo.saveAll(questionOptionEntities);
+            this.examAssignmentRepo.saveAll(examAssignments);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

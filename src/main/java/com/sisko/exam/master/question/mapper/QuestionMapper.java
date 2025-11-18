@@ -59,7 +59,9 @@ public class QuestionMapper {
     private List<QuestionOptionRes> toQuestionOptionList(List<QuestionOptionEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
 
-        return entities.stream().map(option -> QuestionOptionRes.builder()
+        return entities.stream()
+                .filter(option -> option.getDeletedAt() == null)
+                .map(option -> QuestionOptionRes.builder()
                 .id(option.getId())
                 .questionId(option.getQuestion().getId())
                 .questionStem(option.getQuestion().getStem())

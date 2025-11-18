@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Service("attemptServiceEx")
 @RequiredArgsConstructor
@@ -104,7 +105,7 @@ public class AttemptService {
             if (aa.getScore() != null) total += aa.getScore();
         }
         att.setScoreTotal(total);
-        att.setSubmittedAt(Instant.now());
+        att.setSubmittedAt(LocalDateTime.now());
         att.setStatus(ExamAttemptStatus.SUBMITTED);
         return att;
     }
