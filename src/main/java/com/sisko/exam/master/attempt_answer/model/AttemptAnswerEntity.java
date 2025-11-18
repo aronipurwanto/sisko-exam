@@ -2,6 +2,7 @@ package com.sisko.exam.master.attempt_answer.model;
 
 import com.sisko.exam.master.attempt_answer_option.model.AttemptAnswerOptionEntity;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
+import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
@@ -33,15 +34,11 @@ public class AttemptAnswerEntity extends BaseAuditableSoftDelete {
     private ExamAttemptEntity examAttempt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private QuestionEntity question;
+    @JoinColumn(name = "exam_question_id")
+    private ExamQuestionEntity examQuestion;
 
     @Column(name = "answer_text", columnDefinition = "MEDIUMTEXT")
     private String answerText; // for ESSAY
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "selected_option_id")
-    private QuestionOptionEntity questionOption; // for SINGLE MCQ
 
     @Column(name = "score")
     private Double score;

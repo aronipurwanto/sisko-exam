@@ -12,4 +12,5 @@ public class AttemptAnswerOptionRes {
     private Double attemptAnswerScore;
     private String questionOptionId;
     private String questionContent;
+    private boolean selected;
 }

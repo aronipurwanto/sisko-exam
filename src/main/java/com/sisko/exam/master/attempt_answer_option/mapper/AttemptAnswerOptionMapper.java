@@ -28,6 +28,7 @@ public class AttemptAnswerOptionMapper {
                 .attemptAnswerScore(entity.getAttemptAnswer().getScore())
                 .questionOptionId(entity.getQuestionOption().getId())
                 .questionContent(entity.getQuestionOption().getContent())
+                .selected(entity.isSelected())
                 .build();
     }
 
@@ -41,6 +42,7 @@ public class AttemptAnswerOptionMapper {
                 .id(CommonUtil.getUUID())
                 .attemptAnswer(this.getEntityAttemptAnswer(request.getAttemptAnswerId()))
                 .questionOption(this.getEntityQuestionOption(request.getQuestionOptionId()))
+                .selected(request.isSelected())
                 .build();
     }
 
@@ -49,6 +51,7 @@ public class AttemptAnswerOptionMapper {
                 .id(entity.getId())
                 .attemptAnswer(this.getEntityAttemptAnswer(request.getAttemptAnswerId()))
                 .questionOption(this.getEntityQuestionOption(request.getQuestionOptionId()))
+                .selected(request.isSelected())
                 .build();
     }
 

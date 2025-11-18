@@ -20,25 +20,25 @@ public class GradingService {
     /**
      * MULTI_ALL grading: correct iff selected set == set of all correct options.
      */
-    public boolean isMultiAllCorrect(AttemptAnswerEntity aa) {
-        QuestionEntity q = aa.getQuestion();
-        if (q.getQtype() != QuestionType.MCO) return false;
-// Build sets
-        Set<String> correct = new HashSet<>();
-        for (QuestionOptionEntity opt : q.getQuestionOptions()) {
-            if (opt.isCorrect()) correct.add(opt.getId());
-        }
-        Set<String> selected = new HashSet<>();
-        for (AttemptAnswerOptionEntity sel : aa.getAttemptAnswerOptions()) {
-            selected.add(sel.getAttemptAnswer().getId());
-        }
-        return !correct.isEmpty() && correct.equals(selected);
-    }
-
-
-    /** SINGLE MCQ **/
-    public boolean isSingleCorrect(AttemptAnswerEntity aa) {
-        if (aa.getQuestionOption() == null) return false;
-        return aa.getQuestionOption().isCorrect();
-    }
+//    public boolean isMultiAllCorrect(AttemptAnswerEntity aa) {
+//        QuestionEntity q = aa.getQuestion();
+//        if (q.getQtype() != QuestionType.MCO) return false;
+//// Build sets
+//        Set<String> correct = new HashSet<>();
+//        for (QuestionOptionEntity opt : q.getQuestionOptions()) {
+//            if (opt.isCorrect()) correct.add(opt.getId());
+//        }
+//        Set<String> selected = new HashSet<>();
+//        for (AttemptAnswerOptionEntity sel : aa.getAttemptAnswerOptions()) {
+//            selected.add(sel.getAttemptAnswer().getId());
+//        }
+//        return !correct.isEmpty() && correct.equals(selected);
+//    }
+//
+//
+//    /** SINGLE MCQ **/
+//    public boolean isSingleCorrect(AttemptAnswerEntity aa) {
+//        if (aa.getQuestionOption() == null) return false;
+//        return aa.getQuestionOption().isCorrect();
+//    }
 }

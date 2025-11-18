@@ -10,9 +10,12 @@ import lombok.*;
 @Builder
 public class AttemptAnswerOptionReq {
 
-    @NotEmpty(message = "Attempt answer ID is required")
+    @NotBlank(message = "Attempt answer ID is required")
     private String attemptAnswerId;
 
-    @NotEmpty(message = "Option ID is required")
+    @NotBlank(message = "Option ID is required")
     private String questionOptionId;
+
+    @NotNull(message = "selected is required")
+    private boolean selected;
 }

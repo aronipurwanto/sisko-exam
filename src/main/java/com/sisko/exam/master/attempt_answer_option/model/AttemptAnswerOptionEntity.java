@@ -29,4 +29,7 @@ public class AttemptAnswerOptionEntity extends BaseAuditableSoftDelete {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_id", nullable = false)
     private QuestionOptionEntity questionOption;
+
+    @Column(name = "selected")
+    private boolean selected;
 }

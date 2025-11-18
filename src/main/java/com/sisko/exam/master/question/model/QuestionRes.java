@@ -2,6 +2,7 @@ package com.sisko.exam.master.question.model;
 
 import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
+import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
 import com.sisko.exam.master.question_option.model.QuestionOptionRes;
 import lombok.*;
 
@@ -21,4 +22,5 @@ public class QuestionRes {
     private String stem;
     private double pointsDefault;
     private List<QuestionOptionRes> questionOptions = new ArrayList<>();
+    private List<ExamQuestionRes> examQuestions = new ArrayList<>();
 }
