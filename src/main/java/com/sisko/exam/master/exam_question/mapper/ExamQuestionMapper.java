@@ -24,6 +24,7 @@ public class ExamQuestionMapper {
 
     public ExamQuestionRes toResponse(ExamQuestionEntity entity) {
         return ExamQuestionRes.builder()
+                .id(entity.getId())
                 .examId(entity.getExam().getId())
                 .examName(entity.getExam().getName())
                 .questionId(entity.getQuestion().getId())

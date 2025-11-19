@@ -8,6 +8,8 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_attempt.repository.ExamAttemptRepository;
+import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.exam_question.repository.ExamQuestionRepository;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.repository.QuestionRepository;
 import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
@@ -36,6 +38,7 @@ public class DataInitializer implements CommandLineRunner {
     private final QuestionOptionRepository questionOptionRepo;
     private final ExamAttemptRepository examAttemptRepo;
     private final ExamAssignmentRepository examAssignmentRepo;
+    private final ExamQuestionRepository examQuestionRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -127,9 +130,19 @@ public class DataInitializer implements CommandLineRunner {
                 .scoreTotal(90.50)
                 .build();
 
+        ExamQuestionEntity mathMathQuestion1 = ExamQuestionEntity.builder()
+                .id("090f45ba6b3949a58e5899902b439ffc")
+                .exam(math)
+                .question(mathQuestion01)
+                .points(10.0)
+                .required(true)
+                .orderIndex(1)
+                .build();
+
         AttemptAnswerEntity diogoAttempt = AttemptAnswerEntity.builder()
                 .id("78d9b2009d0d49f7ac1c65b568095d40")
                 .examAttempt(diogo)
+                .examQuestion(mathMathQuestion1)
                 .answerText("1, 3, 5, 7, 9, 11")
                 .score(10.00)
                 .gradedBy("teacher math")
@@ -138,6 +151,8 @@ public class DataInitializer implements CommandLineRunner {
                 .build();
 
         List<AttemptAnswerEntity> attemptAnswerEntities = List.of(diogoAttempt);
+
+        List<ExamQuestionEntity> examQuestionEntities = List.of(mathMathQuestion1);
 
         List<ExamAttemptEntity> examAttemptEntities = List.of(diogo);
 
@@ -159,6 +174,7 @@ public class DataInitializer implements CommandLineRunner {
             this.questionRepo.saveAll(questionEntities);
             this.questionOptionRepo.saveAll(questionOptionEntities);
             this.examAssignmentRepo.saveAll(examAssignments);
+            this.examQuestionRepo.saveAll(examQuestionEntities);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -6,6 +6,8 @@ import com.sisko.exam.master.exam.model.ExamRes;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
 import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
+import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
 import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,7 @@ public class ExamMapper {
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())
                 .examAssignments(this.toExamAssList(entity.getExamAssignments()))
+                .examQuestions(this.toExamQuestionList(entity.getExamQuestions()))
                 .build();
     }
 
@@ -68,9 +71,22 @@ public class ExamMapper {
                 .build();
     }
 
+    private List<ExamQuestionRes> toExamQuestionList(List<ExamQuestionEntity> entities) {
+        if (entities == null || entities.isEmpty()) return Collections.emptyList();
+        return entities.stream().map(entity -> ExamQuestionRes.builder()
+                .id(entity.getId())
+                .examId(entity.getExam().getId())
+                .examName(entity.getExam().getName())
+                .questionId(entity.getQuestion().getId())
+                .questionStem(entity.getQuestion().getStem())
+                .points(entity.getPoints())
+                .orderIndex(entity.getOrderIndex())
+                .required(entity.isRequired())
+                .build()).collect(Collectors.toList());
+    }
+
     private List<ExamAssignmentRes> toExamAssList(List<ExamAssignmentEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
-
         return entities.stream().map(entity -> ExamAssignmentRes.builder()
                 .id(entity.getId())
                 .examId(entity.getExam().getId())
