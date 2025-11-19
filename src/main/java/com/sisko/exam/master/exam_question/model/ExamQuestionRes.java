@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ExamQuestionRes {
+    private String id;
     private String examId;
     private String examName;
     private String questionId;

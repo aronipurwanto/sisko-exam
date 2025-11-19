@@ -1,5 +1,7 @@
 package com.sisko.exam.master.question.mapper;
 
+import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.model.QuestionReq;
 import com.sisko.exam.master.question.model.QuestionRes;
@@ -27,6 +29,7 @@ public class QuestionMapper {
                 .stem(entity.getStem())
                 .pointsDefault(entity.getPointsDefault())
                 .questionOptions(toQuestionOptionList(entity.getQuestionOptions()))
+                .examQuestions(this.toExamQuestionList(entity.getExamQuestions()))
                 .build();
     }
 
@@ -56,9 +59,22 @@ public class QuestionMapper {
                 .build();
     }
 
+    private List<ExamQuestionRes> toExamQuestionList(List<ExamQuestionEntity> entities) {
+        if (entities == null || entities.isEmpty()) return Collections.emptyList();
+        return entities.stream().map(entity -> ExamQuestionRes.builder()
+                .id(entity.getId())
+                .examId(entity.getExam().getId())
+                .examName(entity.getExam().getName())
+                .questionId(entity.getQuestion().getId())
+                .questionStem(entity.getQuestion().getStem())
+                .points(entity.getPoints())
+                .orderIndex(entity.getOrderIndex())
+                .required(entity.isRequired())
+                .build()).collect(Collectors.toList());
+    }
+
     private List<QuestionOptionRes> toQuestionOptionList(List<QuestionOptionEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
-
         return entities.stream()
                 .filter(option -> option.getDeletedAt() == null)
                 .map(option -> QuestionOptionRes.builder()
