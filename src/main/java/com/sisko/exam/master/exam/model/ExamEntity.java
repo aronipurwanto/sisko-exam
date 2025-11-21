@@ -2,9 +2,11 @@ package com.sisko.exam.master.exam.model;
 
 import com.sisko.exam.enums.ExamStatus;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
+import com.sisko.exam.master.course.model.CourseEntity;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.level.model.LevelEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -26,6 +28,12 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     @Id
     @Column
     private String id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CourseEntity course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LevelEntity level;
 
     @Column(nullable = false)
     private String name;
@@ -56,13 +64,13 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     @Column(name = "end_at")
     private LocalDateTime endAt;
 
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("orderIndex ASC")
     private List<ExamQuestionEntity> examQuestions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ExamAssignmentEntity> examAssignments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ExamAttemptEntity> examAttempts = new ArrayList<>();
 }

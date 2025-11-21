@@ -4,12 +4,16 @@ import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.enums.Role;
 import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.course.model.CourseEntity;
+import com.sisko.exam.master.course.repository.CourseRepository;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_attempt.repository.ExamAttemptRepository;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import com.sisko.exam.master.exam_question.repository.ExamQuestionRepository;
+import com.sisko.exam.master.level.model.LevelEntity;
+import com.sisko.exam.master.level.repository.LevelRepository;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.repository.QuestionRepository;
 import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
@@ -18,6 +22,7 @@ import com.sisko.exam.master.user.model.UserEntity;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.repository.ExamRepository;
 import com.sisko.exam.master.user.repository.UserRepository;
+import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +44,8 @@ public class DataInitializer implements CommandLineRunner {
     private final ExamAttemptRepository examAttemptRepo;
     private final ExamAssignmentRepository examAssignmentRepo;
     private final ExamQuestionRepository examQuestionRepo;
+    private final LevelRepository levelRepo;
+    private final CourseRepository courseRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -73,10 +80,24 @@ public class DataInitializer implements CommandLineRunner {
     private void initTables() {
         if (!examRepo.findAll().isEmpty()) return;
 
+        CourseEntity mathCourse = CourseEntity.builder()
+                .id("f9c389d3712f49218eec74e8d764a8d5")
+                .name("Math")
+                .code("math")
+                .build();
+
+        LevelEntity a7 = LevelEntity.builder()
+                .id("5d04c8b77e584461a4b35ac851b79fe8")
+                .code("XII_A")
+                .name("Level 7A")
+                .build();
+
         //exams
         ExamEntity math = ExamEntity.builder()
                 .id("5a3b8b1289a14ff7b3a32129ba5a1b52")
                 .name("Mathematics Test")
+                .course(mathCourse)
+                .level(a7)
                 .instructions("Choose the true answer")
                 .startAt(LocalDateTime.parse("2026-06-09T07:30:00"))
                 .endAt(LocalDateTime.parse("2026-06-09T08:30:00"))
@@ -150,6 +171,10 @@ public class DataInitializer implements CommandLineRunner {
                 .feedback("Don't give up!!")
                 .build();
 
+        List<CourseEntity> courses = List.of(mathCourse);
+
+        List<LevelEntity> levels = List.of(a7);
+
         List<AttemptAnswerEntity> attemptAnswerEntities = List.of(diogoAttempt);
 
         List<ExamQuestionEntity> examQuestionEntities = List.of(mathMathQuestion1);
@@ -170,6 +195,8 @@ public class DataInitializer implements CommandLineRunner {
         //math.setExamAttempts(examAttemptEntities);
 
         try {
+            this.courseRepo.saveAll(courses);
+            this.levelRepo.saveAll(levels);
             this.examRepo.saveAll(examEntities);
             this.questionRepo.saveAll(questionEntities);
             this.questionOptionRepo.saveAll(questionOptionEntities);

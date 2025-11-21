@@ -1,5 +1,8 @@
 package com.sisko.exam.master.exam.mapper;
 
+import com.sisko.exam.exception.NotFoundException;
+import com.sisko.exam.master.course.model.CourseEntity;
+import com.sisko.exam.master.course.repository.CourseRepository;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.model.ExamReq;
 import com.sisko.exam.master.exam.model.ExamRes;
@@ -8,6 +11,8 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
 import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
+import com.sisko.exam.master.level.model.LevelEntity;
+import com.sisko.exam.master.level.repository.LevelRepository;
 import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,12 +24,17 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class ExamMapper {
-    private final ExamAssignmentRepository examAssignmentRepository;
+    private final LevelRepository levelRepository;
+    private final CourseRepository courseRepository;
 
     public ExamRes toResponse(ExamEntity entity) {
         return ExamRes.builder()
                 .id(entity.getId())
                 .name(entity.getName())
+                .courseId(entity.getCourse().getId())
+                .courseName(entity.getCourse().getName())
+                .levelId(entity.getLevel().getId())
+                .levelName(entity.getLevel().getName())
                 .instructions(entity.getInstructions())
                 .durationMinutes(entity.getDurationMinutes())
                 .randomizeQuestions(entity.isRandomizeQuestions())
@@ -47,6 +57,8 @@ public class ExamMapper {
         return ExamEntity.builder()
                 .id(CommonUtil.getUUID())
                 .name(request.getName())
+                .course(this.getEntityCourse(request.getCourseId()))
+                .level(this.getEntityLevel(request.getLevelId()))
                 .instructions(request.getInstructions())
                 .durationMinutes(request.getDurationMinutes())
                 .randomizeQuestions(request.getRandomizeQuestions())
@@ -61,6 +73,8 @@ public class ExamMapper {
         return ExamEntity.builder()
                 .id(entity.getId())
                 .name(request.getName())
+                .course(this.getEntityCourse(request.getCourseId()))
+                .level(this.getEntityLevel(request.getLevelId()))
                 .instructions(request.getInstructions())
                 .durationMinutes(request.getDurationMinutes())
                 .randomizeQuestions(request.getRandomizeQuestions())
@@ -99,5 +113,15 @@ public class ExamMapper {
                 .audienceCode(entity.getAudienceCode())
                 .build()
         ).collect(Collectors.toList());
+    }
+
+    private LevelEntity getEntityLevel(String id) {
+        return this.levelRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("level with id %s not found", id)));
+    }
+
+    private CourseEntity getEntityCourse(String id) {
+        return this.courseRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("course with id %s not found", id)));
     }
 }
