@@ -54,7 +54,7 @@ public class ExamService {
     @Transactional
     public ExamAssignmentEntity assign(String examId, String audienceCode, LocalDateTime start, LocalDateTime end, int maxAttempts, String accessCode) {
         ExamEntity e = examRepo.findById(examId).orElseThrow();
-        ExamAssignmentEntity a = ExamAssignmentEntity.builder().exam(e).audienceCode(audienceCode).startAt(start).endAt(end).maxAttempts(maxAttempts).accessCode(accessCode).build();
+        ExamAssignmentEntity a = ExamAssignmentEntity.builder().exam(e).startAt(start).endAt(end).maxAttempts(maxAttempts).accessCode(accessCode).build();
         return assignRepo.save(a);
     }
 }

@@ -65,7 +65,7 @@ public class ExamMapper {
                 .randomizeOptions(request.getRandomizeOptions())
                 .status(request.getStatus())
                 .startAt(request.getStartAt())
-                .endAt(request.getEndAt())
+                .endAt(request.getStartAt().plusMinutes(request.getDurationMinutes()))
                 .build();
     }
 
@@ -110,7 +110,6 @@ public class ExamMapper {
                 .endAt(entity.getEndAt())
                 .maxAttempts(entity.getMaxAttempts())
                 .accessCode(entity.getAccessCode())
-                .audienceCode(entity.getAudienceCode())
                 .build()
         ).collect(Collectors.toList());
     }

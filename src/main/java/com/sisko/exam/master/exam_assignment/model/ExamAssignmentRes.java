@@ -20,5 +20,4 @@ public class ExamAssignmentRes {
     private LocalDateTime endAt;
     private Integer maxAttempts;
     private String accessCode;
-    private String audienceCode;
 }

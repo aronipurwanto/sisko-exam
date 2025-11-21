@@ -34,10 +34,6 @@ public class ExamAssignmentReq {
     private Integer maxAttempts;
 
     @Size(min = 6, max = 20, message = "Access code must be between 6 and 20 characters")
-    @Pattern(regexp = "^[A-Z0-9]+$", message = "Access code can only contain uppercase letters and numbers")
+    //@Pattern(regexp = "^[A-Z0-9]+$", message = "Access code can only contain uppercase letters and numbers")
     private String accessCode;
-
-    @Size(min = 3, max = 50, message = "Audience code must be between 3 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9_-]+$", message = "Audience code can only contain letters, numbers, underscores, and hyphens")
-    private String audienceCode;
 }

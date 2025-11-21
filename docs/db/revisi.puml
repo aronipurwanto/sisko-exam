@@ -1,5 +1,19 @@
 @startuml
 
+entity "Level" as Level {
+    * id : string <<generated>>
+    --
+    * code : string
+    * name : string
+}
+
+entity "Course" as Course {
+    * id : string <<generated>>
+    --
+    * code : string
+    * name : string
+}
+
 entity "Question" as Question {
     * id : string <<generated>>
     --
@@ -38,7 +52,6 @@ entity "ExamAssignment" as ExamAssignment {
     * endAt : LocalDateTime
     * maxAttempts : int
     * accessCode : string
-    * audienceCode : string
 }
 
 entity "ExamAttempt" as ExamAttempt {
@@ -76,10 +89,6 @@ entity "AttemptAnswerOption" as AttemptAnswerOption {
     * selected : boolean
 }
 
-' ==========================
-' RELATIONSHIPS (Fixed)
-' ==========================
-
 ' Question → QuestionOption
 Question ||--|{ QuestionOption
 
@@ -102,5 +111,8 @@ ExamQuestion ||--|{ AttemptAnswer
 ' AttemptAnswer → AttemptAnswerOption → QuestionOption
 AttemptAnswer ||--|{ AttemptAnswerOption
 QuestionOption ||--|{ AttemptAnswerOption
+
+Level ||--|{Exam
+Course ||--|{Exam
 
 @enduml
