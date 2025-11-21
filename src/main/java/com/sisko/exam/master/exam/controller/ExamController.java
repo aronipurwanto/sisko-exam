@@ -28,6 +28,16 @@ public class ExamController extends BaseController<ExamRes> {
         return getResponse(result);
     }
 
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<Response> getByCourseId(@PathVariable("courseId") String courseId) {
+        return getResponse(this.examService.getByCourseId(courseId));
+    }
+
+    @GetMapping("/level/{levelId}")
+    public ResponseEntity<Response> getByLevelId(@PathVariable("levelId") String levelId) {
+        return getResponse(this.examService.getByLevelId(levelId));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Response> get(@PathVariable @NotBlank String id) {
         Optional<ExamRes> result = examService.getById(id);

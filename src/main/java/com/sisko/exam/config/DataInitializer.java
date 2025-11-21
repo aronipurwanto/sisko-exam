@@ -111,7 +111,6 @@ public class DataInitializer implements CommandLineRunner {
                 .startAt(LocalDateTime.parse("2026-06-09T07:30:00"))
                 .endAt(LocalDateTime.parse("2026-06-09T08:30:00"))
                 .accessCode("xxx")
-                .audienceCode("X_IPA_1")
                 .build();
 
         //question

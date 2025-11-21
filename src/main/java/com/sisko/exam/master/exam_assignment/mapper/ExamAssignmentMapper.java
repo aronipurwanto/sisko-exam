@@ -29,7 +29,6 @@ public class ExamAssignmentMapper {
                 .endAt(entity.getEndAt())
                 .maxAttempts(entity.getMaxAttempts())
                 .accessCode(entity.getAccessCode())
-                .audienceCode(entity.getAudienceCode())
                 .build();
     }
 
@@ -47,7 +46,6 @@ public class ExamAssignmentMapper {
                 .endAt(request.getEndAt())
                 .maxAttempts(request.getMaxAttempts())
                 .accessCode(request.getAccessCode())
-                .audienceCode(request.getAudienceCode())
                 .build();
     }
 
@@ -60,7 +58,6 @@ public class ExamAssignmentMapper {
                 .endAt(request.getEndAt())
                 .maxAttempts(request.getMaxAttempts())
                 .accessCode(request.getAccessCode())
-                .audienceCode(request.getAudienceCode())
                 .build();
     }
 

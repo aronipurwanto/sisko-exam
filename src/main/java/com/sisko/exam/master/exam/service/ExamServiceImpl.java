@@ -24,6 +24,16 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
+    public List<ExamRes> getByCourseId(String courseId) {
+        return this.examMapper.toResponseList(this.examRepository.findAllByCourse_IdAndDeletedAtIsNull(courseId));
+    }
+
+    @Override
+    public List<ExamRes> getByLevelId(String levelId) {
+        return this.examMapper.toResponseList(this.examRepository.findAllByLevel_IdAndDeletedAtIsNull(levelId));
+    }
+
+    @Override
     public Optional<ExamRes> getById(String id) {
         ExamEntity result = this.getEntityById(id);
         return Optional.of(this.examMapper.toResponse(result));

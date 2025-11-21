@@ -50,6 +50,8 @@ public class LevelMapper {
         return entities.stream().map(entity -> ExamRes.builder()
                 .id(entity.getId())
                 .name(entity.getName())
+                .courseId(entity.getCourse().getId())
+                .courseName(entity.getCourse().getName())
                 .levelId(entity.getLevel().getId())
                 .levelName(entity.getLevel().getName())
                 .instructions(entity.getInstructions())

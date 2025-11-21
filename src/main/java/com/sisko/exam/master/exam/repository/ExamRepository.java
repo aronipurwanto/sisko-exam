@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface ExamRepository extends JpaRepository<ExamEntity, String> {
     List<ExamEntity> findAllByDeletedAtIsNull();
     Optional<ExamEntity> findByIdAndDeletedAtIsNull(String id);
+    List<ExamEntity> findAllByCourse_IdAndDeletedAtIsNull(String courseId);
+    List<ExamEntity> findAllByLevel_IdAndDeletedAtIsNull(String levelId);
 }

@@ -43,7 +43,4 @@ public class ExamAssignmentEntity extends BaseAuditableSoftDelete {
 
     @Column(name = "access_code")
     private String accessCode;
-
-    @Column(name = "audience_code")
-    private String audienceCode;
 }

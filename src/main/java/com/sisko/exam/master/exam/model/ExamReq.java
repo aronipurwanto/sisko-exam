@@ -46,7 +46,7 @@ public class ExamReq {
     @Future(message = "start time must be in the future")
     private LocalDateTime startAt;
 
-    @NotNull(message = "end at is required")
-    @Future(message = "end time must be in the future")
+//    @NotNull(message = "end at is required")
+//    @Future(message = "end time must be in the future")
     private LocalDateTime endAt;
 }
