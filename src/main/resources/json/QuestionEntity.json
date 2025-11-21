@@ -1,0 +1,9 @@
+[
+  {
+    "id": "aef4891244004d8cac0a4b9a50365d09",
+    "qtype": "MCO",
+    "questionAnswerPolicy": "SINGLE",
+    "stem": "Name the odd numbers!",
+    "pointsDefault": 1.0
+  }
+]

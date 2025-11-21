@@ -1,0 +1,15 @@
+[
+  {
+    "id": "5a3b8b1289a14ff7b3a32129ba5a1b52",
+    "name": "Mathematics Test",
+    "course": {
+      "id": "f9c389d3712f49218eec74e8d764a8d5"
+    },
+    "level": {
+      "id": "5d04c8b77e584461a4b35ac851b79fe8"
+    },
+    "instructions": "Choose the true answer",
+    "startAt": "2026-06-09T07:30:00",
+    "endAt": "2026-06-09T08:30:00"
+  }
+]

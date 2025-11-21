@@ -1,0 +1,16 @@
+[
+  {
+    "id": "78d9b2009d0d49f7ac1c65b568095d40",
+    "examAttempt": {
+      "id": "f8f08206876a4bceac98ebe5ce5b1d51"
+    },
+    "examQuestion": {
+      "id": "090f45ba6b3949a58e5899902b439ffc"
+    },
+    "answerText": "1, 3, 5, 7, 9, 11",
+    "score": 10.00,
+    "gradedBy": "teacher math",
+    "gradedAt": "2025-09-09T17:30:00Z",
+    "feedback": "Don't give up!!"
+  }
+]

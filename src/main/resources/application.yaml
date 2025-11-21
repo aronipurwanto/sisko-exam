@@ -26,6 +26,19 @@ app:
     secret: K8y2KYfZKobypjZMDCr5Xg/eRAjf+lHTPf6J5K16OjVq/5SMjk4n8iql98KQ+4vbCvL6Orzs3QLJH00bb35duA==
     exp-minutes: 3600000 #1 hour
     refresh-minutes: 86400000 #24 hours
+  cors:
+    allowed-origins: 
+      - http://localhost:3000
+      - http://localhost:8081
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    allowed-headers:
+      - Authorization
+      - Content-Type
 
 logging:
   level:

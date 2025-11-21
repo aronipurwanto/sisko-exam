@@ -1,0 +1,16 @@
+[
+  {
+    "username": "student1",
+    "email": "student1@example.com",
+    "password": "secret",
+    "fullName": "Student One",
+    "role": "STUDENT"
+  },
+  {
+    "username": "teacher1",
+    "email": "teacher1@example.com",
+    "password": "secret",
+    "fullName": "Teacher One",
+    "role": "TEACHER"
+  }
+]
