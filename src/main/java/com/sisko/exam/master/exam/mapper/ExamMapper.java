@@ -1,6 +1,8 @@
 package com.sisko.exam.master.exam.mapper;
 
 import com.sisko.exam.exception.NotFoundException;
+import com.sisko.exam.master.course.model.CourseEntity;
+import com.sisko.exam.master.course.repository.CourseRepository;
 import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam.model.ExamReq;
 import com.sisko.exam.master.exam.model.ExamRes;
@@ -23,11 +25,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ExamMapper {
     private final LevelRepository levelRepository;
+    private final CourseRepository courseRepository;
 
     public ExamRes toResponse(ExamEntity entity) {
         return ExamRes.builder()
                 .id(entity.getId())
                 .name(entity.getName())
+                .courseId(entity.getCourse().getId())
+                .courseName(entity.getCourse().getName())
                 .levelId(entity.getLevel().getId())
                 .levelName(entity.getLevel().getName())
                 .instructions(entity.getInstructions())
@@ -52,6 +57,7 @@ public class ExamMapper {
         return ExamEntity.builder()
                 .id(CommonUtil.getUUID())
                 .name(request.getName())
+                .course(this.getEntityCourse(request.getCourseId()))
                 .level(this.getEntityLevel(request.getLevelId()))
                 .instructions(request.getInstructions())
                 .durationMinutes(request.getDurationMinutes())
@@ -67,6 +73,7 @@ public class ExamMapper {
         return ExamEntity.builder()
                 .id(entity.getId())
                 .name(request.getName())
+                .course(this.getEntityCourse(request.getCourseId()))
                 .level(this.getEntityLevel(request.getLevelId()))
                 .instructions(request.getInstructions())
                 .durationMinutes(request.getDurationMinutes())
@@ -111,5 +118,10 @@ public class ExamMapper {
     private LevelEntity getEntityLevel(String id) {
         return this.levelRepository.findByIdAndDeletedAtIsNull(id)
                 .orElseThrow(() -> new NotFoundException(String.format("level with id %s not found", id)));
+    }
+
+    private CourseEntity getEntityCourse(String id) {
+        return this.courseRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("course with id %s not found", id)));
     }
 }

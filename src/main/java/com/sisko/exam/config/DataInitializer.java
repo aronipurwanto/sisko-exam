@@ -4,6 +4,8 @@ import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.enums.Role;
 import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.course.model.CourseEntity;
+import com.sisko.exam.master.course.repository.CourseRepository;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
@@ -43,6 +45,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ExamAssignmentRepository examAssignmentRepo;
     private final ExamQuestionRepository examQuestionRepo;
     private final LevelRepository levelRepo;
+    private final CourseRepository courseRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -77,6 +80,12 @@ public class DataInitializer implements CommandLineRunner {
     private void initTables() {
         if (!examRepo.findAll().isEmpty()) return;
 
+        CourseEntity mathCourse = CourseEntity.builder()
+                .id("f9c389d3712f49218eec74e8d764a8d5")
+                .name("Math")
+                .code("math")
+                .build();
+
         LevelEntity a7 = LevelEntity.builder()
                 .id("5d04c8b77e584461a4b35ac851b79fe8")
                 .code("XII_A")
@@ -87,6 +96,7 @@ public class DataInitializer implements CommandLineRunner {
         ExamEntity math = ExamEntity.builder()
                 .id("5a3b8b1289a14ff7b3a32129ba5a1b52")
                 .name("Mathematics Test")
+                .course(mathCourse)
                 .level(a7)
                 .instructions("Choose the true answer")
                 .startAt(LocalDateTime.parse("2026-06-09T07:30:00"))
@@ -160,6 +170,9 @@ public class DataInitializer implements CommandLineRunner {
                 .gradedAt(Instant.parse("2025-09-09T17:30:00Z"))
                 .feedback("Don't give up!!")
                 .build();
+
+        List<CourseEntity> courses = List.of(mathCourse);
+
         List<LevelEntity> levels = List.of(a7);
 
         List<AttemptAnswerEntity> attemptAnswerEntities = List.of(diogoAttempt);
@@ -182,6 +195,7 @@ public class DataInitializer implements CommandLineRunner {
         //math.setExamAttempts(examAttemptEntities);
 
         try {
+            this.courseRepo.saveAll(courses);
             this.levelRepo.saveAll(levels);
             this.examRepo.saveAll(examEntities);
             this.questionRepo.saveAll(questionEntities);

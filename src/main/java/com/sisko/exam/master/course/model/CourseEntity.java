@@ -1,12 +1,12 @@
 package com.sisko.exam.master.course.model;
 
 import com.sisko.exam.base.BaseAuditableSoftDelete;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.sisko.exam.master.exam.model.ExamEntity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
+
+import java.util.List;
 
 
 @Entity
@@ -28,4 +28,7 @@ public class CourseEntity extends BaseAuditableSoftDelete {
 
     @Column(name = "code")
     private String code;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ExamEntity> examEntities;
 }
