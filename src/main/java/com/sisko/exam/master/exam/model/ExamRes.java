@@ -18,6 +18,8 @@ import java.util.List;
 public class ExamRes {
 
     private String id;
+    private String levelId;
+    private String levelName;
     private String name;
     private String instructions;
     private int durationMinutes = 60;

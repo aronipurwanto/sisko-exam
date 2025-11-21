@@ -5,6 +5,7 @@ import com.sisko.exam.base.BaseAuditableSoftDelete;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
+import com.sisko.exam.master.level.model.LevelEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -26,6 +27,9 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     @Id
     @Column
     private String id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LevelEntity level;
 
     @Column(nullable = false)
     private String name;

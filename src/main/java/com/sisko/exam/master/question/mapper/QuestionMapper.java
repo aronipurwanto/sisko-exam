@@ -61,7 +61,9 @@ public class QuestionMapper {
 
     private List<ExamQuestionRes> toExamQuestionList(List<ExamQuestionEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
-        return entities.stream().map(entity -> ExamQuestionRes.builder()
+        return entities.stream()
+                .filter(entity -> entity.getDeletedAt() == null)
+                .map(entity -> ExamQuestionRes.builder()
                 .id(entity.getId())
                 .examId(entity.getExam().getId())
                 .examName(entity.getExam().getName())

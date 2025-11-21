@@ -18,6 +18,9 @@ public class ExamReq {
     @Size(max = 255, message = "name must not exceed 255 characters")
     private String name;
 
+    @NotBlank(message = "level is required")
+    private String levelId;
+
     @NotBlank(message = "instructions is required")
     @Size(max = 5000, message = "instructions must not exceed 5000 characters")
     private String instructions;
