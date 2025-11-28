@@ -27,9 +27,9 @@ app:
     exp-minutes: 3600000 #1 hour
     refresh-minutes: 86400000 #24 hours
   cors:
-    allowed-origins: http://localhost:3000, http://localhost:8081
+    allowed-origins: http://localhost:3000, http://localhost:8081, http://localhost:8084
     allowed-methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
-    allowed-headers: Authorization, Content-Type
+    allowed-headers: Content-Type
 
 logging:
   level:
