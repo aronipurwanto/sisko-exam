@@ -23,6 +23,8 @@ public class ExamRes {
     private String levelId;
     private String levelName;
     private String name;
+    private int year;
+    private String semester;
     private String instructions;
     private int durationMinutes = 60;
     private boolean randomizeQuestions = true;

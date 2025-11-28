@@ -24,6 +24,12 @@ public class ExamReq {
     @NotBlank(message = "level is required")
     private String levelId;
 
+    @NotNull(message = "year is required")
+    private int year;
+
+    @NotBlank(message = "semester is required")
+    private String semester;
+
     @NotBlank(message = "instructions is required")
     @Size(max = 5000, message = "instructions must not exceed 5000 characters")
     private String instructions;
