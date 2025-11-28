@@ -38,6 +38,12 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "year")
+    private int year;
+
+    @Column(name = "semester")
+    private String semester;
+
     @Column(columnDefinition = "TEXT")
     private String instructions;
 
