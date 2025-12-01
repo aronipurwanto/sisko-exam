@@ -4,6 +4,7 @@ import com.sisko.exam.enums.ExamStatus;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptRes;
 import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
+import com.sisko.exam.master.question.model.QuestionRes;
 import lombok.*;
 
 import java.time.Instant;
@@ -23,7 +24,7 @@ public class ExamRes {
     private String levelId;
     private String levelName;
     private String name;
-    private int year;
+    private Integer year;
     private String semester;
     private String instructions;
     private int durationMinutes = 60;
@@ -34,5 +35,5 @@ public class ExamRes {
     private LocalDateTime endAt;
     private List<ExamAssignmentRes> examAssignments;
     private List<ExamAttemptRes> examAttempts;
-    private List<ExamQuestionRes> examQuestions;
+    private List<QuestionRes> questions;
 }

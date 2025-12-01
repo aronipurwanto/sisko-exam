@@ -12,6 +12,9 @@ import lombok.*;
 @Builder
 public class QuestionReq {
 
+    @NotBlank(message = "Exam ID is required")
+    private String examId;
+
     @NotNull(message = "Question type is required")
     private QuestionType qtype;
 

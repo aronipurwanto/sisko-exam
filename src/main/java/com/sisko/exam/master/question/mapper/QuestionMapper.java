@@ -1,11 +1,11 @@
 package com.sisko.exam.master.question.mapper;
 
-import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
-import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
+import com.sisko.exam.exception.NotFoundException;
+import com.sisko.exam.master.exam.model.ExamEntity;
+import com.sisko.exam.master.exam.repository.ExamRepository;
 import com.sisko.exam.master.question.model.QuestionEntity;
 import com.sisko.exam.master.question.model.QuestionReq;
 import com.sisko.exam.master.question.model.QuestionRes;
-import com.sisko.exam.master.question.repository.QuestionRepository;
 import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
 import com.sisko.exam.master.question_option.model.QuestionOptionRes;
 import com.sisko.exam.util.CommonUtil;
@@ -19,29 +19,30 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class QuestionMapper {
-    private final QuestionRepository questionRepository;
+    private final ExamRepository examRepository;
 
     public QuestionRes toResponse(QuestionEntity entity) {
         return QuestionRes.builder()
                 .id(entity.getId())
+                .examId(entity.getExam().getId())
+                .examName(entity.getExam().getName())
                 .qtype(entity.getQtype())
                 .questionAnswerPolicy(entity.getQuestionAnswerPolicy())
                 .stem(entity.getStem())
                 .pointsDefault(entity.getPointsDefault())
                 .questionOptions(toQuestionOptionList(entity.getQuestionOptions()))
-                .examQuestions(this.toExamQuestionList(entity.getExamQuestions()))
                 .build();
     }
 
     public List<QuestionRes> toResponseList(List<QuestionEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
-
         return entities.stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public QuestionEntity toEntity(QuestionReq request) {
         return QuestionEntity.builder()
                 .id(CommonUtil.getUUID())
+                .exam(this.getEntityExam(request.getExamId()))
                 .qtype(request.getQtype())
                 .questionAnswerPolicy(request.getQuestionAnswerPolicy())
                 .stem(request.getStem())
@@ -52,27 +53,12 @@ public class QuestionMapper {
     public QuestionEntity toEntity(QuestionReq request, QuestionEntity entity) {
         return QuestionEntity.builder()
                 .id(entity.getId())
+                .exam(this.getEntityExam(request.getExamId()))
                 .qtype(request.getQtype())
                 .questionAnswerPolicy(request.getQuestionAnswerPolicy())
                 .stem(request.getStem())
                 .pointsDefault(request.getPointsDefault())
                 .build();
-    }
-
-    private List<ExamQuestionRes> toExamQuestionList(List<ExamQuestionEntity> entities) {
-        if (entities == null || entities.isEmpty()) return Collections.emptyList();
-        return entities.stream()
-                .filter(entity -> entity.getDeletedAt() == null)
-                .map(entity -> ExamQuestionRes.builder()
-                .id(entity.getId())
-                .examId(entity.getExam().getId())
-                .examName(entity.getExam().getName())
-                .questionId(entity.getQuestion().getId())
-                .questionStem(entity.getQuestion().getStem())
-                .points(entity.getPoints())
-                .orderIndex(entity.getOrderIndex())
-                .required(entity.isRequired())
-                .build()).collect(Collectors.toList());
     }
 
     private List<QuestionOptionRes> toQuestionOptionList(List<QuestionOptionEntity> entities) {
@@ -89,5 +75,10 @@ public class QuestionMapper {
                 .orderIndex(option.getOrderIndex())
                 .build()
         ).collect(Collectors.toList());
+    }
+
+    private ExamEntity getEntityExam(String id) {
+        return this.examRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new NotFoundException(String.format("exam with id %s not found", id)));
     }
 }
