@@ -13,10 +13,6 @@ import java.util.List;
 @Builder
 public class ExamQuestionRes {
     private String id;
-    private String examId;
-    private String examName;
-    private String questionId;
-    private String questionStem;
     private Double points;
     private Integer orderIndex;
     private Boolean required = true;

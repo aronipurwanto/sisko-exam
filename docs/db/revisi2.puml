@@ -1,0 +1,114 @@
+@startuml
+
+entity "Level" as Level {
+    * id : string <<generated>>
+    --
+    * code : string
+    * name : string
+}
+
+entity "Course" as Course {
+    * id : string <<generated>>
+    --
+    * code : string
+    * name : string
+}
+
+entity "Question" as Question {
+    * id : string <<generated>>
+    --
+    * qtype : enum <ESSAY, MCQ>
+    * answerPolicy : enum <SINGLE, MULTI_ALL, MULTI_PARTIAL>
+    * stem : string
+    * pointsDefault : double
+}
+
+entity "QuestionOption" as QuestionOption {
+    * id : string <<generated>>
+    --
+    * content : string
+    * correct : boolean
+    * orderIndex : int
+}
+
+entity "Exam" as Exam {
+    * id : string <<generated>>
+    --
+    * name : string
+    * instructions : string
+    * durationMinutes : int
+    * randomizeQuestions : boolean
+    * randomizeOptions : boolean
+    * status : enum <DRAFT, PUBLISHED, ARCHIVED>
+    * startAt : LocalDateTime
+    * endAt : LocalDateTime
+}
+
+entity "ExamAssignment" as ExamAssignment {
+    * id : string <<generated>>
+    --
+    * groupLabel : string
+    * startAt : LocalDateTime
+    * endAt : LocalDateTime
+    * maxAttempts : int
+    * accessCode : string
+}
+
+entity "ExamAttempt" as ExamAttempt {
+    * id : string <<generated>>
+    --
+    * studentUsername : string
+    * attemptNo : int
+    * startedAt : LocalDateTime
+    * submittedAt : LocalDateTime
+    * status : enum <IN_PROGRESS, SUBMITTED, GRADED, CANCELLED>
+    * scoreTotal : Double
+}
+
+entity "ExamQuestion" as ExamQuestion {
+    * id : string <<generated>>
+    --
+    * points : double
+    * orderIndex : int
+    * required : boolean
+}
+
+entity "AttemptAnswer" as AttemptAnswer {
+    * id : string <<generated>>
+    --
+    * answerText : string
+    * score : Double
+    * gradedBy : string
+    * gradedAt : LocalDateTime
+    * feedback : string
+}
+
+entity "AttemptAnswerOption" as AttemptAnswerOption {
+    * id : string <<generated>>
+    --
+    * selected : boolean
+}
+
+' Question → QuestionOption
+Question ||--|{ QuestionOption
+
+' Exam → ExamAssignment
+Exam ||--|{ ExamAssignment
+
+' Exam → ExamQuestion → Question
+Exam ||--|{ Question
+
+' Exam → ExamAttempt
+Exam ||--|{ ExamAttempt
+
+' ExamAttempt → AttemptAnswer
+ExamAttempt ||--|{ AttemptAnswer
+
+' AttemptAnswer → AttemptAnswerOption → QuestionOption
+AttemptAnswer ||--|{ AttemptAnswerOption
+QuestionOption ||--|{ AttemptAnswerOption
+
+Level ||--|{Exam
+Course ||--|{Exam
+
+@enduml

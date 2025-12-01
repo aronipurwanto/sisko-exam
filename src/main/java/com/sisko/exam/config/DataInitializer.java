@@ -61,18 +61,18 @@ public class DataInitializer implements CommandLineRunner {
         if (examRepository.count() == 0) {
             loadData("ExamEntity", new TypeReference<List<ExamEntity>>() {}, examRepository::saveAll);
         }
-        if (examAssignmentRepository.count() == 0) {
-            loadData("ExamAssignmentEntity", new TypeReference<List<ExamAssignmentEntity>>() {}, examAssignmentRepository::saveAll);
-        }
+//        if (examAssignmentRepository.count() == 0) {
+//            loadData("ExamAssignmentEntity", new TypeReference<List<ExamAssignmentEntity>>() {}, examAssignmentRepository::saveAll);
+//        }
         if (questionRepository.count() == 0) {
             loadData("QuestionEntity", new TypeReference<List<QuestionEntity>>() {}, questionRepository::saveAll);
         }
         if (questionOptionRepository.count() == 0) {
             loadData("QuestionOptionEntity", new TypeReference<List<QuestionOptionEntity>>() {}, questionOptionRepository::saveAll);
         }
-        if (examQuestionRepository.count() == 0) {
-            loadData("ExamQuestionEntity", new TypeReference<List<ExamQuestionEntity>>() {}, examQuestionRepository::saveAll);
-        }
+//        if (examQuestionRepository.count() == 0) {
+//            loadData("ExamQuestionEntity", new TypeReference<List<ExamQuestionEntity>>() {}, examQuestionRepository::saveAll);
+//        }
     }
 
     private <T> void loadData(String className, TypeReference<List<T>> typeReference, DataSaver<T> saver) {

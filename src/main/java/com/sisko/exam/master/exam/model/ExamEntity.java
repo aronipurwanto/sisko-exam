@@ -7,6 +7,7 @@ import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_attempt.model.ExamAttemptEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import com.sisko.exam.master.level.model.LevelEntity;
+import com.sisko.exam.master.question.model.QuestionEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -39,7 +40,7 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     private String name;
 
     @Column(name = "year")
-    private int year;
+    private Integer year;
 
     @Column(name = "semester")
     private String semester;
@@ -71,8 +72,7 @@ public class ExamEntity extends BaseAuditableSoftDelete {
     private LocalDateTime endAt;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @OrderBy("orderIndex ASC")
-    private List<ExamQuestionEntity> examQuestions = new ArrayList<>();
+    private List<QuestionEntity> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "exam", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ExamAssignmentEntity> examAssignments = new ArrayList<>();

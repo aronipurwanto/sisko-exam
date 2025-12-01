@@ -3,6 +3,7 @@ package com.sisko.exam.master.question.model;
 import com.sisko.exam.enums.QuestionAnswerPolicy;
 import com.sisko.exam.enums.QuestionType;
 import com.sisko.exam.master.attempt_answer.model.AttemptAnswerEntity;
+import com.sisko.exam.master.exam.model.ExamEntity;
 import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
 import com.sisko.exam.base.BaseAuditableSoftDelete;
 import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
@@ -27,6 +28,9 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     @Column
     private String id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ExamEntity exam;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private QuestionType qtype;
@@ -44,7 +48,4 @@ public class QuestionEntity extends BaseAuditableSoftDelete {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("orderIndex ASC")
     private List<QuestionOptionEntity> questionOptions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExamQuestionEntity> examQuestions = new ArrayList<>();
 }

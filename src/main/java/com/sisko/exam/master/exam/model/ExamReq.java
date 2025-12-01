@@ -25,7 +25,7 @@ public class ExamReq {
     private String levelId;
 
     @NotNull(message = "year is required")
-    private int year;
+    private Integer year;
 
     @NotBlank(message = "semester is required")
     private String semester;

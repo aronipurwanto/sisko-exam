@@ -25,10 +25,6 @@ public class ExamQuestionMapper {
     public ExamQuestionRes toResponse(ExamQuestionEntity entity) {
         return ExamQuestionRes.builder()
                 .id(entity.getId())
-                .examId(entity.getExam().getId())
-                .examName(entity.getExam().getName())
-                .questionId(entity.getQuestion().getId())
-                .questionStem(entity.getQuestion().getStem())
                 .points(entity.getPoints())
                 .orderIndex(entity.getOrderIndex())
                 .required(entity.isRequired())
@@ -43,8 +39,6 @@ public class ExamQuestionMapper {
     public ExamQuestionEntity toEntity(ExamQuestionReq request) {
         return ExamQuestionEntity.builder()
                 .id(CommonUtil.getUUID())
-                .exam(this.getEntityExam(request.getExamId()))
-                .question(this.getEntityQuestion(request.getQuestionId()))
                 .points(request.getPoints())
                 .orderIndex(request.getOrderIndex())
                 .required(request.getRequired())
@@ -54,17 +48,10 @@ public class ExamQuestionMapper {
     public ExamQuestionEntity toEntity(ExamQuestionReq request, ExamQuestionEntity entity) {
         return ExamQuestionEntity.builder()
                 .id(entity.getId())
-                .exam(this.getEntityExam(request.getExamId()))
-                .question(this.getEntityQuestion(request.getQuestionId()))
                 .points(request.getPoints())
                 .orderIndex(request.getOrderIndex())
                 .required(request.getRequired())
                 .build();
-    }
-
-    private ExamEntity getEntityExam(String id) {
-        return this.examRepository.findByIdAndDeletedAtIsNull(id)
-                .orElseThrow(() -> new NotFoundException(String.format("exam with id %s not found", id)));
     }
 
     private QuestionEntity getEntityQuestion(String id) {

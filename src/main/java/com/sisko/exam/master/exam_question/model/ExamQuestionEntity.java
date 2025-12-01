@@ -22,14 +22,6 @@ public class ExamQuestionEntity extends BaseAuditableSoftDelete {
     @Column
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id", nullable = false)
-    private ExamEntity exam;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    private QuestionEntity question;
-
     @Column(nullable = false)
     private double points;
 

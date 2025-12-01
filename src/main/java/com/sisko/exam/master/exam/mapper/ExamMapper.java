@@ -8,11 +8,12 @@ import com.sisko.exam.master.exam.model.ExamReq;
 import com.sisko.exam.master.exam.model.ExamRes;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentEntity;
 import com.sisko.exam.master.exam_assignment.model.ExamAssignmentRes;
-import com.sisko.exam.master.exam_assignment.repository.ExamAssignmentRepository;
-import com.sisko.exam.master.exam_question.model.ExamQuestionEntity;
-import com.sisko.exam.master.exam_question.model.ExamQuestionRes;
 import com.sisko.exam.master.level.model.LevelEntity;
 import com.sisko.exam.master.level.repository.LevelRepository;
+import com.sisko.exam.master.question.model.QuestionEntity;
+import com.sisko.exam.master.question.model.QuestionRes;
+import com.sisko.exam.master.question_option.model.QuestionOptionEntity;
+import com.sisko.exam.master.question_option.model.QuestionOptionRes;
 import com.sisko.exam.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -44,8 +45,8 @@ public class ExamMapper {
                 .status(entity.getStatus())
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())
+                .questions(this.toQuestionList(entity.getQuestions()))
                 .examAssignments(this.toExamAssList(entity.getExamAssignments()))
-                .examQuestions(this.toExamQuestionList(entity.getExamQuestions()))
                 .build();
     }
 
@@ -91,19 +92,19 @@ public class ExamMapper {
                 .build();
     }
 
-    private List<ExamQuestionRes> toExamQuestionList(List<ExamQuestionEntity> entities) {
+    private List<QuestionRes> toQuestionList(List<QuestionEntity> entities) {
         if (entities == null || entities.isEmpty()) return Collections.emptyList();
         return entities.stream()
                 .filter(entity -> entity.getDeletedAt() == null)
-                .map(entity -> ExamQuestionRes.builder()
-                .id(entity.getId())
-                .examId(entity.getExam().getId())
-                .examName(entity.getExam().getName())
-                .questionId(entity.getQuestion().getId())
-                .questionStem(entity.getQuestion().getStem())
-                .points(entity.getPoints())
-                .orderIndex(entity.getOrderIndex())
-                .required(entity.isRequired())
+                .map(entity -> QuestionRes.builder()
+                        .id(entity.getId())
+                        .examId(entity.getExam().getId())
+                        .examName(entity.getExam().getName())
+                        .qtype(entity.getQtype())
+                        .questionAnswerPolicy(entity.getQuestionAnswerPolicy())
+                        .stem(entity.getStem())
+                        .pointsDefault(entity.getPointsDefault())
+                        .questionOptions(this.toQuestionOptionList(entity.getQuestionOptions()))
                 .build()).collect(Collectors.toList());
     }
 
@@ -120,6 +121,22 @@ public class ExamMapper {
                 .accessCode(entity.getAccessCode())
                 .build()
         ).collect(Collectors.toList());
+    }
+
+    private List<QuestionOptionRes> toQuestionOptionList(List<QuestionOptionEntity> entities) {
+        if (entities == null || entities.isEmpty()) return Collections.emptyList();
+        return entities.stream()
+                .filter(option -> option.getDeletedAt() == null)
+                .map(option -> QuestionOptionRes.builder()
+                        .id(option.getId())
+                        .questionId(option.getQuestion().getId())
+                        .questionStem(option.getQuestion().getStem())
+                        .label(option.getLabel())
+                        .content(option.getContent())
+                        .correct(option.isCorrect())
+                        .orderIndex(option.getOrderIndex())
+                        .build()
+                ).collect(Collectors.toList());
     }
 
     private LevelEntity getEntityLevel(String id) {
