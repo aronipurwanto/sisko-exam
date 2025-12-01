@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/v1/api/attempt-answer-option")
+@RequestMapping("/api/v1/attempt-answer-option")
 public class AttemptAnswerOptionController extends BaseController<AttemptAnswerOptionRes> {
     private final AttemptAnswerOptionService service;
 

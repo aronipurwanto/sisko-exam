@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/v1/api/course")
+@RequestMapping("/api/v1/course")
 public class CourseController extends BaseController<CourseRes> {
     private final CourseService courseService;
 

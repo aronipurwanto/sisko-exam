@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/v1/api/question")
+@RequestMapping("/api/v1/question")
 public class QuestionController extends BaseController<QuestionRes> {
     private final QuestionService questionService;
 

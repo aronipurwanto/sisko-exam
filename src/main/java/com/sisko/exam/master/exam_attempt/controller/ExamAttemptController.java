@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/v1/api/exam-attempt")
+@RequestMapping("/api/v1/exam-attempt")
 public class ExamAttemptController extends BaseController<ExamAttemptRes> {
     private final ExamAttemptService examAttemptService;
 

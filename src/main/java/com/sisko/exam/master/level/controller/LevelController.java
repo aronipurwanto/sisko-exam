@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/v1/api/level")
+@RequestMapping("/api/v1/level")
 public class LevelController extends BaseController<LevelRes> {
     private final LevelService levelService;
 
